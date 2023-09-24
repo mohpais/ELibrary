@@ -1,0 +1,13 @@
+label.form-label {
+    font-size: 13px !important;
+}
+
+form label.error {
+    font-size: 12px;
+    color: red;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0 !important;
+    margin-left: 0 !important;
+}
