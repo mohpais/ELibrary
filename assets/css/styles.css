@@ -3705,6 +3705,8 @@ textarea.form-control-lg {
   }
 }
 .nav-link:hover, .nav-link:focus {
+  border-top: 1px solid #e9ecef;
+  border-top: 1px solid #e9ecef;
   color: var(--bs-nav-link-hover-color);
 }
 .nav-link.disabled {

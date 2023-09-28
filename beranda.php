@@ -7,7 +7,7 @@
         !isset($_SESSION['user']['jurusan']) && 
         !isset($_SESSION['user']['semester']) && 
         !isset($_SESSION['user']['tanggal_bergabung'])) {
-            header("Location: profile.php");
+            header("Location: data-diri.php");
     }
 ?>
 <!DOCTYPE html>
@@ -19,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>E - Library | Dashboard</title>
+    <title>E-Library | Beranda</title>
     <link href="assets/css/styles.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <!-- Toast Library -->
@@ -55,10 +55,10 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Dashboard</h1>
+                    <h1 class="mt-4">Beranda</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item">Panel</li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item active">Beranda</li>
                     </ol>
                     <div class="row">
                         <div class="col-12">
@@ -581,7 +581,30 @@
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
-            new DataTable('#example');
+            $('#example').DataTable({
+                "language": {
+                    "emptyTable": "Tidak ada data!",
+                    "search": "Cari Judul:",
+                    "paginate": {
+                        "first": "Data Pertama",
+                        "previous": "Sebelumnya",
+                        "next": "Selanjutnya",
+                        "last": "Data Terakhir"
+                    },
+                    "aria": {
+                        "paginate": {
+                            "first": 'Data Pertama',
+                            "previous": 'Sebelumnya',
+                            "next": 'Selanjutnya',
+                            "last": 'Data Terakhir'
+                        }
+                    },
+                    "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    "infoEmpty": "Tidak ada catatan yang tersedia",
+                    "infoFiltered": "(Difilter dari _MAX_ total data)",
+                    "lengthMenu": "Tampilkan _MENU_ data per halaman",
+                },
+            });
         })
     </script>
 </body>

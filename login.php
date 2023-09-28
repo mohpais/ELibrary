@@ -1,3 +1,15 @@
+<?php
+    // Start the session
+    session_start();
+
+    // Check if the user is already logged in, redirect to the dashboard
+    if (isset($_SESSION['user'])) {
+        header('Location: beranda.php');
+        exit;
+    } else {
+        session_destroy();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -6,7 +18,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>E-Library | Login</title>
+        <title>E-Library | Masuk</title>
         <link href="assets/css/styles.css" rel="stylesheet" />
         <link href="assets/css/custom.css" rel="stylesheet" />
         <!-- Toast Library -->
@@ -40,7 +52,7 @@
                                             </div>
                                             <div class="d-grid">
                                                 <button type="submit" class="btn btn-ubk">Masuk</button>
-                                                <!-- <a href="dashboard.php" class="btn btn-ubk">Masuk</a> -->
+                                                <!-- <a href="beranda.php" class="btn btn-ubk">Masuk</a> -->
                                             </div>
                                             <div class="d-grid gap-0 mt-3 mb-0">
                                                 <p>Tidak punya akun? <a href="register.php">Buat akun!</a></p>
@@ -84,7 +96,7 @@
                                 if(response.success) {
                                     toastr.success("Login berhasil");
                                     window.localStorage.setItem("user", JSON.stringify(response.message));
-                                    window.location.href="dashboard.php";
+                                    window.location.href="beranda.php";
                                 } else {
                                     toastr.error(response.message);
                                 }

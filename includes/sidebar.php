@@ -3,7 +3,7 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">Halaman Utama</div>
-                <a class="nav-link <?php echo get_current_url() === 'dashboard' ? 'active' : '' ?>" href="dashboard.php">
+                <a class="nav-link <?php echo get_current_url() === 'beranda' ? 'active' : '' ?>" href="beranda.php">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Beranda
                 </a>
@@ -25,9 +25,7 @@
                             Persetujuan
                     </a>
                 <?php } ?>
-                <?php
-                    if ($_SESSION['user']['semester'] >= 6) {
-                ?>
+                <?php if ($_SESSION['user']['semester'] >= 6) { ?>
                     <a class="nav-link <?php echo get_current_url() === 'laporan kerja praktek' || get_current_url() === 'skripsi' ? 'active' : 'collapsed' ?>" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
                         aria-expanded="<?php echo get_current_url() === 'laporan kerja praktek' || get_current_url() === 'skripsi' ? 'true' : 'false' ?>" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -38,7 +36,9 @@
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link <?php echo get_current_url() === 'laporan kerja praktek' ? 'fw-bold text-ubk bg-none' : '' ?>" href="laporan-kerja-praktek.php">Laporan Kerja Praktek</a>
-                            <a class="nav-link <?php echo get_current_url() === 'skripsi' ? 'fw-bold text-ubk bg-none' : '' ?>" href="skripsi.php">Tugas Akhir (Skripsi)</a>
+                            <?php if ($_SESSION['user']['semester'] == 8) { ?>
+                                <a class="nav-link <?php echo get_current_url() === 'skripsi' ? 'fw-bold text-ubk bg-none' : '' ?>" href="skripsi.php">Tugas Akhir (Skripsi)</a>
+                            <?php } ?>
                         </nav>
                     </div>
                 <?php } ?>
@@ -47,13 +47,13 @@
                 ?>
                     <div class="sb-sidenav-menu-heading">Master Data</div>
                     <a class="nav-link" href="charts.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
-                        Pendaftaran
+                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        Data Pengguna
                     </a>
-                    <a class="nav-link" href="tables.html">
+                    <!-- <a class="nav-link" href="tables.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                         Publikasi
-                    </a>
+                    </a> -->
                 <?php } ?>
             </div>
         </div>

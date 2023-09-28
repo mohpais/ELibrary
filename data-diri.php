@@ -12,7 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>E - Library | Profile</title>
+        <title>E-Library | Data Diri</title>
         <link href="assets/css/styles.css" rel="stylesheet" />
         <link href="assets/css/custom.css" rel="stylesheet" />
         <!-- Toast Library -->
@@ -31,10 +31,10 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Profile</h1>
+                        <h1 class="mt-4">Data Diri</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item">Panel</li>
-                            <li class="breadcrumb-item active">Profile</li>
+                            <li class="breadcrumb-item active">Data Diri</li>
                         </ol>
                         <div class="row flex-column gap-1">
                             <?php 

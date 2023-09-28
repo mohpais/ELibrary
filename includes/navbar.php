@@ -13,12 +13,11 @@
                 <span><?php echo $_SESSION['user']['nama_lengkap'] ?></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">Settings</a></li>
-                <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+                <li><a class="dropdown-item" href="data-diri.php">Data Diri</a></li>
                 <li>
                     <hr class="dropdown-divider" />
                 </li>
-                <li><a href="services/auth/logout-service.php" class="dropdown-item" href="#!">Logout</a></li>
+                <li><a href="services/auth/logout-service.php" class="dropdown-item" href="#!">Keluar</a></li>
             </ul>
         </li>
     </ul>

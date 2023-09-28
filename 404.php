@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>404 Error - SB Admin</title>
+        <title>E-Library | 404</title>
         <link href="assets/css/styles.css" rel="stylesheet" />
         <!-- Font Awesome Library -->
         <script src="assets/lib/font-awesome/all.js"></script>
@@ -21,7 +21,7 @@
                                 <div class="text-center mt-4">
                                     <img class="mb-4 img-error" src="assets/img/error-404-monochrome.svg" />
                                     <p class="lead">URL yang diakses tidak ditemukan di server ini.</p>
-                                    <a href="dashboard.php">
+                                    <a href="beranda.php">
                                         <i class="fas fa-arrow-left me-1"></i>
                                         Kembali ke Halaman Utama
                                     </a>

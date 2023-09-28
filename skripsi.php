@@ -3,6 +3,7 @@
     require_once 'helpers/authorize.php';
     require_once 'helpers/functions.php';
     require_once 'config/connection.php';
+    if ($_SESSION['user']['semester'] < 8) header("Location: beranda.php");
     // Perform database connection
     $conn = connect_to_database();
     if (isset($_GET['id'])) {
@@ -47,7 +48,7 @@
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$result) header("Location: 404.php");
     } else {
-        if (strpos($_SESSION['user']['role'], 'Kaprodi') !== false) header("Location: dashboard.php");
+        if (strpos($_SESSION['user']['role'], 'Kaprodi') !== false) header("Location: beranda.php");
         $query = "SELECT p.id FROM `tbl_pengajuan` p WHERE p.dibuat_oleh=? AND p.tipe_pengajuan_id = 2";
         $stmt = $conn->prepare($query);
         // bind parameter ke query
@@ -64,7 +65,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>E - Library | Profile</title>
+        <title>E-Library | Skripsi</title>
         <link href="assets/css/styles.css" rel="stylesheet" />
         <link href="assets/css/custom.css" rel="stylesheet" />
         <!-- Toast Library -->
@@ -173,7 +174,7 @@
                                 </div>
                             <?php } elseif ($result['status_pengajuan_id'] === 7) { ?>
                                 <div id="revise-dokumen" class="row">
-                                    <div class="col-12">
+                                    <div class="col-8">
                                         <div class="card card-body shadow-sm">
                                             <h4 class="card-title mb-3">Revise Dokumen</h4>
                                             <form id="reviseProposalForm" novalidate>
@@ -234,6 +235,75 @@
                                                     </div>
                                                 </div>
                                             </form>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <div class="card card-body shadow-sm">
+                                            <div class="row mb-4">
+                                                <div class="col h5 card-title my-auto">Proses</div>
+                                            </div>
+                                            <?php 
+                                                $i = 1;
+                                                $query = <<<EOD
+                                                    SELECT 
+                                                        ak.nama_lengkap user,
+                                                        ak.role,
+                                                        sp.status,
+                                                        pp.catatan,
+                                                        pp.tampilkan,
+                                                        pp.dibuat_pada
+                                                    FROM 
+                                                        tbl_proses_pengajuan pp 
+                                                        JOIN (
+                                                            SELECT ak.*, rl.jabatan `role` FROM tbl_akun ak JOIN tbl_jabatan rl ON rl.id = ak.jabatan_id
+                                                        ) ak
+                                                            ON
+                                                                ak.kode = pp.dibuat_oleh
+                                                        JOIN
+                                                            tbl_status_pengajuan sp
+                                                            ON
+                                                                sp.id = pp.status_pengajuan_id
+                                                    WHERE 
+                                                        pp.pengajuan_id = ? AND pp.tampilkan = 1
+                                                    ORDER BY pp.id DESC
+                                                EOD;
+                                                $stmt = $conn->prepare($query);
+                                                // bind parameter ke query
+                                                $stmt->execute([$id]);
+                                                $hasil = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                                foreach ($hasil as $row) {
+                                            ?>
+                                                <div class="row mx-2 mb-0">
+                                                    <div class="col pb-3 px-1 <?php echo $i != count($hasil) ? 'border-start' : '' ?> <?php echo $i == 1 ? 'border-success' : 'border-primary-200' ?>">
+                                                        <div class="position-relative">
+                                                            <div class="rounded-circle position-absolute <?php echo $i == 1 ? 'bg-success' : 'bg-muted' ?>" style="width: 15px; height: 15px; top: 0px; z-index: 2; left: -12px;"></div>
+                                                        </div>
+                                                        <div class="ps-3 position-relative text-dark">
+                                                            <div class="d-flex justify-content-between">
+                                                                <p class="mb-0 text-bold" style="font-size: 14px; margin-top: -5px;"><?php echo $row['role'] ?></p>
+                                                                <?php
+                                                                    $timestamp = strtotime($row['dibuat_pada']);
+                                                                    $formattedDate = date('d-M-Y H:m', $timestamp);
+                                                                ?>
+                                                                <span class="text-muted my-auto" style="font-size: 11px">
+                                                                    <span style="font-size: 11px"><?php echo $formattedDate ?></span>
+                                                                </span>
+                                                            </div>
+                                                            <p class="text-muted mb-0" style="font-size: 12px">
+                                                                <span class="text-dark text-bold"><?php echo $row['user'] ?></span> - <i><?php echo $row['status'] ?></i>
+                                                            </p>
+                                                            <?php if ($row['catatan']) { ?>
+                                                                <div class="card card-body mt-1 p-2 border-0 shadow-none" style="border-radius: 7px; background-color: #e2e3e5;">
+                                                                    <p class="mb-0 text-dark text-bold" style="font-size: 10px">Komentar: </p>
+                                                                    <p class="mb-0 text-dark" style="font-size: 12px"><?php echo $row['catatan'] ?></p>
+                                                                </div>
+                                                            <?php } ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php $i++ ?>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 </div>
@@ -742,7 +812,7 @@
                                 $('#action-publish, #action-accept').prop("disabled", true);
                                 toastr.success(response.message);
                                 setTimeout(() => {
-                                    window.location.reload();
+                                    window.location.href = 'persetujuan.php';
                                 }, 2000);
                             } else {
                                 toastr.error(response.message);
@@ -764,7 +834,7 @@
                             if(response.success) {
                                 toastr.success(response.message);
                                 setTimeout(() => {
-                                    window.location.reload();
+                                    window.location.href = 'persetujuan.php';
                                 }, 2000);
                             } else {
                                 toastr.error(response.message);

@@ -7,7 +7,7 @@
         !isset($_SESSION['user']['jurusan']) && 
         !isset($_SESSION['user']['semester']) && 
         !isset($_SESSION['user']['tanggal_bergabung'])) {
-            header("Location: profile.php");
+            header("Location: data-diri.php");
     }
 ?>
 <!DOCTYPE html>

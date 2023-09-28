@@ -7,7 +7,7 @@
         !isset($_SESSION['user']['jurusan']) && 
         !isset($_SESSION['user']['semester']) && 
         !isset($_SESSION['user']['tanggal_bergabung'])) {
-            header("Location: profile.php");
+            header("Location: data-diri.php");
     }
 ?>
 <!DOCTYPE html>
@@ -19,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>E - Library | Dashboard</title>
+    <title>E-Library | Persetujuan</title>
     <link href="assets/css/styles.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <!-- DataTables Library -->
@@ -112,6 +112,28 @@
     <script>
         $(document).ready(function() {
             $('#approvalTable').DataTable({
+                "language": {
+                    "emptyTable": "Tidak ada data!",
+                    "search": "Cari Judul:",
+                    "paginate": {
+                        "first": "Data Pertama",
+                        "previous": "Sebelumnya",
+                        "next": "Selanjutnya",
+                        "last": "Data Terakhir"
+                    },
+                    "aria": {
+                        "paginate": {
+                            "first": 'Data Pertama',
+                            "previous": 'Sebelumnya',
+                            "next": 'Selanjutnya',
+                            "last": 'Data Terakhir'
+                        }
+                    },
+                    "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    "infoEmpty": "Tidak ada catatan yang tersedia",
+                    "infoFiltered": "(Difilter dari _MAX_ total data)",
+                    "lengthMenu": "Tampilkan _MENU_ data per halaman",
+                },
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
