@@ -11,3 +11,7 @@ form label.error {
     padding: 0 !important;
     margin-left: 0 !important;
 }
+
+.bg-success-200 {
+    background-color: rgb(110, 255, 127);
+}

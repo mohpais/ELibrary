@@ -1,4 +1,32 @@
 <?php
+    function getBaseUrl($pathDirection) {
+        // Is connection secure? Do we need https or http?
+        // See http://stackoverflow.com/a/16076965/1150683
+        $isSecure = false;
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+            $isSecure = true;
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) 
+            && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'
+            || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) 
+            && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
+                $isSecure = true;
+        }
+
+        $REQUEST_PROTOCOL = $isSecure ? 'https' : 'http';
+        $REQUEST_PROTOCOL .= '://';
+
+        // Create path variable to the root of this project
+        $path_var = $REQUEST_PROTOCOL.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
+        // If URL ends in a slash followed by one or more digits (e.g. http://domain.com/abcde/1), 
+        // returns a cleaned version of the URL, e.g. http://domain.com/
+        if (preg_match("/\/\d+\/?$/", $path_var)) {
+            $path_var = preg_replace("/\w+\/\d+\/?$/", '', $path_var);
+        }
+
+        return $path_var;
+    }
+
     function get_current_url() {
         $url = $_SERVER['REQUEST_URI'];
         $seperateUrl = explode("/", $url);

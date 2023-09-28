@@ -12,15 +12,10 @@ window.addEventListener('DOMContentLoaded', event => {
 
 });
 
-// Define a reusable AJAX function
-function sendAjaxRequest(url, method, data, successCallback, errorCallback) {
-    $.ajax({
-        url: url,
-        method: method,
-        data: data,
-        success: successCallback,
-        error: errorCallback
-    });
+// Function to parse URL query parameters
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
 }
 
 function calculateSemester(joinDate) {
@@ -48,3 +43,19 @@ function onlyNumberKey(evt) {
         return false;
     return true;
 }
+
+function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+    return false;
+};

@@ -7,8 +7,9 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>404 Error - SB Admin</title>
-        <link href="css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="assets/css/styles.css" rel="stylesheet" />
+        <!-- Font Awesome Library -->
+        <script src="assets/lib/font-awesome/all.js"></script>
     </head>
     <body>
         <div id="layoutError">
@@ -18,11 +19,11 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-6">
                                 <div class="text-center mt-4">
-                                    <h1 class="display-1">500</h1>
-                                    <p class="lead">Internal Server Error</p>
-                                    <a href="index.html">
+                                    <img class="mb-4 img-error" src="assets/img/error-404-monochrome.svg" />
+                                    <p class="lead">URL yang diakses tidak ditemukan di server ini.</p>
+                                    <a href="dashboard.php">
                                         <i class="fas fa-arrow-left me-1"></i>
-                                        Return to Dashboard
+                                        Kembali ke Halaman Utama
                                     </a>
                                 </div>
                             </div>
@@ -45,7 +46,8 @@
                 </footer>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
+        <!-- Bootstrap Library -->
+        <script src="assets/lib/bootstrap/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
     </body>
 </html>
