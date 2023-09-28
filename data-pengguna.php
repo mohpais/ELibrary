@@ -3,12 +3,6 @@
     require_once 'helpers/authorize.php';
     require_once 'helpers/functions.php';
     require_once 'config/connection.php';
-    if (
-        !isset($_SESSION['user']['jurusan']) && 
-        !isset($_SESSION['user']['semester']) && 
-        !isset($_SESSION['user']['tanggal_bergabung'])) {
-            header("Location: data-diri.php");
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,12 +13,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>E-Library | Persetujuan</title>
+    <title>E-Library | Data Pengguna</title>
     <link href="assets/css/styles.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <!-- DataTables Library -->
-    <link rel="stylesheet" href="assets/lib/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="assets/lib/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="assets/lib/DataTables/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="assets/lib/DataTables/jquery.dataTables.min.css">
     <style>
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             padding: 0 !important;
@@ -49,38 +43,47 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Persetujuan</h1>
+                    <h1 class="mt-4">Data Pengguna</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item">Panel</li>
-                        <li class="breadcrumb-item active">Persetujuan</li>
+                        <li class="breadcrumb-item active">Data Pengguna</li>
                     </ol>
                     <div class="row">
                         <div class="col-12">
                             <div class="card mb-4">
-                                <div class="card-header d-flex">
-                                    <div class="h5 title my-auto">
-                                        Data Pengajuan Mahasiswa
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-auto ms-auto">
+                                            <a type="button" href="" class="btn btn-sm btn-success">
+                                                <i class="fas fa-user-plus"></i>
+                                                Tambah Pengguna
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <table id="approvalTable" class="display" style="width:100%">
+                                    <table id="userTable" class="display" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>No.</th>
-                                                <th>Mahasiswa</th>
-                                                <th>Tipe Pengajuan</th>
-                                                <th>Judul</th>
-                                                <th>Tanggal Dibuat</th>
+                                                <th>Nama Lengkap</th>
+                                                <th>Email</th>
+                                                <th>Jabatan</th>
+                                                <th>No Telp</th>
+                                                <th>Tanggal Bergabung</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
                                         <tfoot>
                                             <tr>
                                                 <th>No.</th>
-                                                <th>Mahasiswa</th>
-                                                <th>Tipe Pengajuan</th>
-                                                <th>Judul</th>
-                                                <th>Tanggal Dibuat</th>
+                                                <th>Nama Lengkap</th>
+                                                <th>Email</th>
+                                                <th>Jabatan</th>
+                                                <th>No Telp</th>
+                                                <th>Tanggal Bergabung</th>
+                                                <th></th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -107,10 +110,10 @@
     <script src="assets/lib/DataTables/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
-            $('#approvalTable').DataTable({
+            $('#userTable').DataTable({
                 "language": {
                     "emptyTable": "Tidak ada data!",
-                    "search": "Cari Judul:",
+                    "search": "Cari Pengguna:",
                     "paginate": {
                         "first": "Data Pertama",
                         "previous": "Sebelumnya",
@@ -133,52 +136,83 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": "services/document/get-awaiting-decision-service.php", // Replace with the URL of your PHP script
+                    "url": "services/user/get-users-service.php", // Replace with the URL of your PHP script
                     "type": "POST"
                 },
                 "columns": [
+                    // Add this line for the numbering index
                     { 
                         "data": null, // Use null as the data source
                         "render": function (data, type, row, meta) {
                             // Render the row index (meta.row) + 1 as the numbering index
                             return meta.row + 1;
                         }
-                    }, // Add this line for the numbering index
+                    },
                     { "data": "nama_lengkap" },
-                    { "data": "tipe" },
-                    { "data": "judul" },
-                    { "data": "dibuat_pada" },
+                    { 
+                        "data": "email",
+                        "render": function (data, type, row) {
+                            // console.log(data);
+                            // Check if the data is null, and if so, display a hyphen
+                            return !data ? '-' : data;
+                        }
+                    },
+                    { "data": "role" },
+                    {
+                         "data": "no_telp" ,
+                        "render": function (data, type, row) {
+                            // console.log(data);
+                            // Check if the data is null, and if so, display a hyphen
+                            return !data ? '-' : data;
+                        }
+                    },
+                    { "data": "tanggal_bergabung" },
                     { 
                         "data": "id",
                         "render": function (data, type, row) {
-                            let tipe = row.tipe === "Skripsi" ? 2 : 1;
-                            return '<button id="btnResponse" class="btn btn-primary" data-id="' + data + '" data-tipe="' + tipe + '"><i class="fa-solid fa-pen-to-square"></i></button>';
+                            return '<button id="btnResponse" class="btn btn-warning" data-id="' + data + '"><i class="fa-solid fa-pen-to-square"></i></button>';
                         }
                     },
                 ],
+                "columnDefs": [
+                    {
+                        "targets": [0], // Index of the column you want to center (0-based index)
+                        "className": "text-center" // Add the CSS class for text centering
+                    }
+                ],
+                "createdRow": function(row, data, dataIndex) {
+                    // Customize the row creation process here
+                    // 'row' is the row element
+                    // 'data' is the data for the current row
+                    // 'dataIndex' is the index of the current row in the dataset
+
+                    // Example: Add a class to a cell in the first column based on its data
+                    console.log(row, data, dataIndex);
+                    if (!data.email) {
+                        $('td', row).eq(2).addClass('text-center');
+                    } else if (!data.no_telp) {
+                        $('td', row).eq(4).addClass('text-center');
+                    }
+                },
+                "lengthMenu": [5, 25, 50, 100],
                 "paging": true,
-                "lengthChange": false,
+                "lengthChange": true,
                 "searching": true,
                 "ordering": true,
                 "info": true,
                 "autoWidth": false,
                 "order": [
-                    [4, "desc"]
+                    [5, "desc"]
                 ]
             });
         });
 
-        $('#approvalTable').on('click', 'button#btnResponse', function () {
+        $('#userTable').on('click', 'button#btnResponse', function () {
             let dataId = $(this).data('id');
             let dataTipe = $(this).data('tipe');
             let url = dataTipe === 1 ? `laporan-kerja-praktek.php?id=${dataId}` : `skripsi.php?id=${dataId}`;
             window.location.href = url;
         });
-        // $("#btnResponse").click(function() {
-        //     var dataId = $(this).data('id');
-        //     var dataTipe = $(this).data('tipe');
-        //     console.log(dataId, dataTipe);
-        // })
     </script>
 </body>
 

@@ -46,11 +46,11 @@
                     if ($_SESSION['user']['role'] === 'Admin') {
                 ?>
                     <div class="sb-sidenav-menu-heading">Master Data</div>
-                    <a class="nav-link" href="charts.html">
+                    <a class="nav-link <?php echo get_current_url() === 'data pengguna' ? 'active' : '' ?>" href="data-pengguna.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                         Data Pengguna
                     </a>
-                    <!-- <a class="nav-link" href="tables.html">
+                    <!-- <a class="nav-link" href="tables.html">data-pengguna
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                         Publikasi
                     </a> -->

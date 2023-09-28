@@ -9,8 +9,6 @@
     // Include the database connection details from database.php
     require_once '../../config/connection.php';
     $kode_user = $_SESSION['user']['kode'];
-    $role_user = $_SESSION['user']['role'];
-    $jurusan   = $role_user === "Kaprodi SI" ? "Sistem Informasi" : "Sistem Komputer";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             // Perform database connection
@@ -20,43 +18,22 @@
             $length = $_POST['length'];
             $orderColumn = $_POST['order'][0]['column'];
             $orderDir = $_POST['order'][0]['dir'];
+            // Define column DataTable
             $columns = array(
-                0 => 'id',
+                0 => 'kode',
                 1 => 'nama_lengkap',
-                2 => 'tipe',
-                3 => 'judul',
-                4 => 'dibuat_pada'
+                2 => 'email',
+                3 => 'role',
+                4 => 'no_telp',
+                5 => 'tanggal_bergabung'
             );
             $orderBy = $columns[$orderColumn];
             $searchValue = $_POST['search']['value'];
 
             // Query
-            $query = <<<EOD
-                SELECT 
-                    p.id,
-                    ak.nama_lengkap,
-                    tp.tipe,
-                    p.judul,
-                    p.dibuat_pada
-                FROM 
-                    `tbl_pengajuan` p
-                    LEFT JOIN
-                        `tbl_tipe_pengajuan` tp
-                        ON
-                            tp.id = p.tipe_pengajuan_id
-                    LEFT JOIN
-                        `tbl_dokumen_akhir` da
-                        ON
-                            da.pengajuan_id = p.id
-                    LEFT JOIN
-                        `tbl_akun` ak
-                        ON
-                            ak.kode = p.dibuat_oleh
-                WHERE 
-                    p.status_pengajuan_id = 3 and ak.jurusan = '$jurusan'
-            EOD;
+            $query = "SELECT akun.kode, akun.nama_lengkap, akun.email, role.jabatan role, akun.no_telp, akun.tanggal_bergabung FROM tbl_akun akun join tbl_jabatan role on role.id = akun.jabatan_id WHERE kode != $kode_user";
             // Total records without filtering
-            $totalRecordsQuery  = "SELECT COUNT(dataQ.id) as total FROM ($query) dataQ";
+            $totalRecordsQuery  = "SELECT COUNT(dataQ.kode) as total FROM ($query) dataQ";
             $totalRecordsResult = $conn->prepare($totalRecordsQuery);
             $totalRecordsResult->execute();
             $totalRecords       = $totalRecordsResult->fetch(PDO::FETCH_ASSOC)['total'];
@@ -64,25 +41,19 @@
                 // Total records without filtering
                 $totalFiltered = $totalRecords;
                 // Get records of data
-                $query .= "ORDER BY $orderBy $orderDir LIMIT $length OFFSET $start";
+                $query .= " ORDER BY $orderBy $orderDir LIMIT $length OFFSET $start";
             } else {
                 // Total records with filtering
-                $totalFilteredQuery  = "SELECT COUNT(dataQ.id) as total FROM ($query) dataQ WHERE dataQ.judul LIKE '%$searchValue%'";
+                $totalFilteredQuery  = "SELECT COUNT(dataQ.kode) as total FROM ($query) dataQ WHERE dataQ.nama_lengkap LIKE '%$searchValue%'";
                 $totalFilteredResult = $conn->prepare($totalFilteredQuery);
                 $totalFilteredResult->execute();
                 $totalFiltered       = $totalFilteredResult->fetch(PDO::FETCH_ASSOC)['total'];
                 // Get records of data
-                $query .= " AND judul LIKE '%$searchValue%' ORDER BY $orderBy $orderDir LIMIT $length OFFSET $start";
+                $query .= " AND nama_lengkap LIKE '%$searchValue%' ORDER BY $orderBy $orderDir LIMIT $length OFFSET $start";
             }
             $stmt    = $conn->prepare($query);
             $stmt->execute();
             $result  = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            // Prepare the data in DataTables format
-            // $data = array();
-            // while ($row = $stmt->fetchAll(PDO::FETCH_ASSOC)) {
-            //     $data[] = $row;
-            // }
 
             // Prepare the response json
             $jsonResponse = array(
@@ -97,3 +68,4 @@
             echo json_encode($th);
         }
     }
+    

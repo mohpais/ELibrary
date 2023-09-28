@@ -4,6 +4,7 @@
     require_once 'helpers/functions.php';
     require_once 'config/connection.php';
     if (
+        $_SESSION['user']['role'] === "Mahasiswa" &&
         !isset($_SESSION['user']['jurusan']) && 
         !isset($_SESSION['user']['semester']) && 
         !isset($_SESSION['user']['tanggal_bergabung'])) {

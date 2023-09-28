@@ -107,46 +107,39 @@
                                                 />
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
-                                            <label for="jurusan" class="col-md-3 col-lg-2 col-form-label">Jurusan <span class="text-danger fw-bold">*</span></label>
-                                            <div class="col-md-9 col-lg-10">
-                                                <select name="jurusan" id="jurusan" class="form-control">
-                                                    <option value="" disabled selected>-- Pilih Salah Satu --</option>
-                                                    <option value="Sistem Informasi" <?php echo $_SESSION['user']['jurusan'] == 'Sistem Informasi' ? 'selected' : '' ?>>Sistem Informasi</option>
-                                                    <option value="Sistem Komputer" <?php echo $_SESSION['user']['jurusan'] == 'Sistem Komputer' ? 'selected' : '' ?>>Sistem Komputer</option>
-                                                </select>
+                                        <?php if ($_SESSION['user']['role'] === 'Mahasiswa') { ?>
+                                            <div class="row mb-3">
+                                                <label for="jurusan" class="col-md-3 col-lg-2 col-form-label">Jurusan <span class="text-danger fw-bold">*</span></label>
+                                                <div class="col-md-9 col-lg-10">
+                                                    <select name="jurusan" id="jurusan" class="form-control">
+                                                        <option value="" disabled selected>-- Pilih Salah Satu --</option>
+                                                        <option value="Sistem Informasi" <?php echo $_SESSION['user']['jurusan'] == 'Sistem Informasi' ? 'selected' : '' ?>>Sistem Informasi</option>
+                                                        <option value="Sistem Komputer" <?php echo $_SESSION['user']['jurusan'] == 'Sistem Komputer' ? 'selected' : '' ?>>Sistem Komputer</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label for="tanggal_bergabung" class="col-md-3 col-lg-2 col-form-label">Tanggal Masuk <span class="text-danger fw-bold">*</span></label>
-                                            <div class="col-md-9 col-lg-10">
-                                                <input type="text" class="form-control datepicker" id="tanggal_bergabung" name="tanggal_bergabung"  
-                                                placeholder="Masukkan tanggal masuk ..." value="<?php echo $_SESSION['user']['tanggal_bergabung'] ?>" />
-                                                <!-- <div class="input-group date" data-provide="datepicker">
+                                            <div class="row mb-3">
+                                                <label for="tanggal_bergabung" class="col-md-3 col-lg-2 col-form-label">Tanggal Masuk <span class="text-danger fw-bold">*</span></label>
+                                                <div class="col-md-9 col-lg-10">
                                                     <input type="text" class="form-control datepicker" id="tanggal_bergabung" name="tanggal_bergabung"  
-                                                        placeholder="Masukkan tanggal masuk ..." value="<?php echo $_SESSION['user']['tanggal_bergabung'] ?>" />
-                                                    <span class="input-group-append">
-                                                        <span class="input-group-text bg-light d-block">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </span>
-                                                    </span>
-                                                </div> -->
+                                                    placeholder="Masukkan tanggal masuk ..." value="<?php echo $_SESSION['user']['tanggal_bergabung'] ?>" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label for="semester" class="col-md-3 col-lg-2 col-form-label">Semester <span class="text-danger fw-bold">*</span></label>
-                                            <div class="col-md-9 col-lg-10">
-                                                <input 
-                                                    id="semester" 
-                                                    name="semester" 
-                                                    type="text" 
-                                                    class="form-control" 
-                                                    value="<?php echo $_SESSION['user']['semester'] ?>"
-                                                    placeholder="Semester akan terisi secara otomatis ketika mengisi tanggal masuk ..."
-                                                    disabled
-                                                />
+                                            <div class="row mb-3">
+                                                <label for="semester" class="col-md-3 col-lg-2 col-form-label">Semester <span class="text-danger fw-bold">*</span></label>
+                                                <div class="col-md-9 col-lg-10">
+                                                    <input 
+                                                        id="semester" 
+                                                        name="semester" 
+                                                        type="text" 
+                                                        class="form-control" 
+                                                        value="<?php echo $_SESSION['user']['semester'] ?>"
+                                                        placeholder="Semester akan terisi secara otomatis ketika mengisi tanggal masuk ..."
+                                                        disabled
+                                                    />
+                                                </div>
                                             </div>
-                                        </div>
+                                        <?php } ?>
                                         <div class="row mt-4">
                                             <div class="col">
                                                 <p class="fz-10 text-muted">(<span class="text-danger"><b>*</b></span>) <b>Mandatori</b> wajib diisi.</p>
@@ -183,6 +176,7 @@
         <script>
             $(document).ready(function () {
                 $(document).off('.datepicker.data-api');
+                var role = '<?php echo $_SESSION['user']['role'] ?>';
 
                 function calculateSemester(joinDate) {
                     // Parse the joinDate string into a Date object
@@ -219,12 +213,16 @@
                             minlength: 12
                         },
                         email: "email",
-                        jurusan: "required",
+                        jurusan: {
+                            required: role === 'Mahasiswa' ? true : false
+                        },
                         tanggal_bergabung: {
-                            required: true,
+                            required: role === 'Mahasiswa' ? true : false,
                             date: true
                         },
-                        semester: "required"
+                        semester: {
+                            required: role === 'Mahasiswa' ? true : false
+                        }
                     },
                     messages: {
                         kode_user: "Kode user tidak boleh kosong.",
