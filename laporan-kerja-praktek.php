@@ -42,12 +42,11 @@
                 p.id=?
         EOD;
         $stmt = $conn->prepare($query);
-        // bind parameter ke query
         $stmt->execute([$id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!isset($result)) header("Location: skripsi.php?id=" . $result['id']);
+        if (!$result) header("Location: 404.php");
     } else {
-        if (strpos($_SESSION['user']['role'], 'Kaprodi') !== false) header("Location: skripsi.php?id=" . $result['id']);
+        if (strpos($_SESSION['user']['role'], 'Kaprodi') !== false) header("Location: dashboard.php");
         $query = "SELECT p.id FROM `tbl_pengajuan` p WHERE p.dibuat_oleh=? AND p.tipe_pengajuan_id = 1";
         $stmt = $conn->prepare($query);
         // bind parameter ke query
@@ -64,7 +63,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>E - Library | Profile</title>
+        <title>E - Library | LPK</title>
         <link href="assets/css/styles.css" rel="stylesheet" />
         <link href="assets/css/custom.css" rel="stylesheet" />
         <!-- Toast Library -->
@@ -107,10 +106,10 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Skripsi</h1>
+                        <h1 class="mt-4">Laporan Kerja Praktek</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item">Panel</li>
-                            <li class="breadcrumb-item active">Skripsi</li>
+                            <li class="breadcrumb-item active">Laporan Kerja Praktek</li>
                         </ol>
                         <?php if (!isset($id) || $result['status_pengajuan_id'] === 7) { ?>
                             <?php if (!isset($id)) { ?>

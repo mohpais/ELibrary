@@ -3,7 +3,7 @@
     <button class="btn btn-link btn-sm order-0 mx-2" id="sidebarToggle" href="#!"><i
             class="fas fa-bars"></i></button>
     <!-- Navbar Brand-->
-    <a class="navbar-brand" href="index.html">E-Library</a>
+    <a class="navbar-brand" href="index.html">Perpustakaan Online</a>
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto me-3 me-lg-4">
         <li class="nav-item dropdown">

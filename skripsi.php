@@ -45,9 +45,9 @@
         // bind parameter ke query
         $stmt->execute([$id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!isset($result)) header("Location: skripsi.php?id=" . $result['id']);
+        if (!$result) header("Location: 404.php");
     } else {
-        if (strpos($_SESSION['user']['role'], 'Kaprodi') !== false) header("Location: skripsi.php?id=" . $result['id']);
+        if (strpos($_SESSION['user']['role'], 'Kaprodi') !== false) header("Location: dashboard.php");
         $query = "SELECT p.id FROM `tbl_pengajuan` p WHERE p.dibuat_oleh=? AND p.tipe_pengajuan_id = 2";
         $stmt = $conn->prepare($query);
         // bind parameter ke query

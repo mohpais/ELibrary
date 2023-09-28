@@ -2,7 +2,7 @@
     <nav class="sb-sidenav accordion sb-sidenav-light shadow" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <div class="sb-sidenav-menu-heading">Pages</div>
+                <div class="sb-sidenav-menu-heading">Halaman Utama</div>
                 <a class="nav-link <?php echo get_current_url() === 'dashboard' ? 'active' : '' ?>" href="dashboard.php">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Beranda
@@ -13,14 +13,14 @@
                         if (
                             get_current_url() === 'laporan kerja praktek' ||
                             get_current_url() === 'skripsi' ||
-                            get_current_url() === 'pengajuan'
+                            get_current_url() === 'persetujuan'
                         ) {
                             $set_active = 'active';
                         }
                     ?>
                     <a 
                         class="nav-link <?php echo $set_active ?>" 
-                        href="dashboard.php">
+                        href="persetujuan.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
                             Persetujuan
                     </a>
