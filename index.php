@@ -7,7 +7,7 @@
     if (!isset($_SESSION['user'])) {
         // Redirect the user to the sign-in page
         session_destroy();
-        header('Location: sign-in.php');
+        header('Location: login.php');
         exit; // Make sure to exit to prevent further script execution
     }
 ?>
