@@ -168,7 +168,16 @@
                         }
                     },
                     { "data": "judul" },
-                    { "data": "dibuat_pada" },
+                    { 
+                        "data": "dibuat_pada",
+                        "render": function (data) {
+                            var date = new Date(data);
+                            var day = date.getDate();
+                            var month = date.getMonth() + 1; // Months are 0-based
+                            var year = date.getFullYear();
+                            return day + '/' +  month + '/' + year;
+                        }
+                    },
                     { 
                         "data": "dokumen_akhir",
                         "orderable": false,
@@ -191,7 +200,7 @@
                 "info": true,
                 "autoWidth": false,
                 "order": [
-                    [5, "desc"]
+                    [6, "desc"]
                 ]
             });
         })

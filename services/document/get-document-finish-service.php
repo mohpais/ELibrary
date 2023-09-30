@@ -57,7 +57,7 @@
                         ON
                             ak.kode = p.dibuat_oleh
                 WHERE 
-                    p.status_pengajuan_id = 6 AND (ak.jurusan IS NOT NULL AND ak.jurusan = '$jurusan')
+                    p.status_pengajuan_id = 6
             EOD;
             // Total records without filtering
             $totalRecordsQuery  = "SELECT COUNT(dataQ.id) as total FROM ($query) dataQ";
@@ -68,7 +68,7 @@
                 // Total records without filtering
                 $totalFiltered = $totalRecords;
                 // Get records of data
-                $query .= "ORDER BY $orderBy $orderDir LIMIT $length OFFSET $start";
+                $query .= " ORDER BY $orderBy $orderDir LIMIT $length OFFSET $start";
             } else {
                 // Total records with filtering
                 $totalFilteredQuery  = "SELECT COUNT(dataQ.id) as total FROM ($query) dataQ WHERE dataQ.judul LIKE '%$searchValue%'";

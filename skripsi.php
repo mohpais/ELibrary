@@ -250,6 +250,7 @@
                                                         ak.role,
                                                         sp.status,
                                                         pp.catatan,
+                                                        pp.dokumen_revisi,
                                                         pp.tampilkan,
                                                         pp.dibuat_pada
                                                     FROM 
@@ -295,8 +296,17 @@
                                                             </p>
                                                             <?php if ($row['catatan']) { ?>
                                                                 <div class="card card-body mt-1 p-2 border-0 shadow-none" style="border-radius: 7px; background-color: #e2e3e5;">
-                                                                    <p class="mb-0 text-dark text-bold" style="font-size: 10px">Komentar: </p>
-                                                                    <p class="mb-0 text-dark" style="font-size: 12px"><?php echo $row['catatan'] ?></p>
+                                                                    <p class="mb-1 text-dark text-bold" style="font-size: 10px">Komentar: </p>
+                                                                    <?php if (isset($row['dokumen_revisi'])) { ?>
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <p class="mb-0 text-dark" style="font-size: 12px"><?php echo $row['catatan'] ?></p>
+                                                                        <a href="download-file.php?file=<?php echo $row['dokumen_revisi'] ?>">
+                                                                            <i class="fa-solid fa-file-arrow-down"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                    <?php } else { ?>
+                                                                        <p class="mb-0 text-dark" style="font-size: 12px"><?php echo $row['catatan'] ?></p>
+                                                                    <?php } ?>
                                                                 </div>
                                                             <?php } ?>
                                                         </div>
@@ -363,7 +373,7 @@
                                                     $result['status_pengajuan_id'] === 3
                                                 ) { 
                                             ?>
-                                            <div class="row">
+                                            <!-- <div class="row">
                                                 <div class="col-md-4 label ">Catatan</div>
                                                 <div class="col-md-8">
                                                     <textarea class="form-control" name="catatan" id="catatan" rows="5"></textarea>
@@ -380,6 +390,18 @@
                                                         <button id="action-accept" type="button" class="btn btn-sm btn-success">Terima</button>
                                                     <?php } ?>
                                                     <button id="action-revise" type="button" class="btn btn-sm btn-warning">Revisi</button>
+                                                </div>
+                                            </div> -->
+                                            <div class="row my-4">
+                                                <div class="col-auto mx-auto">
+                                                    <?php if ($result['surat_validasi'] && $result['dokumen_akhir']) { ?>
+                                                        <button id="action-publish" type="button" class="btn btn-sm btn-info">Publish</button>
+                                                    <?php } else { ?>
+                                                        <button id="action-accept" type="button" class="btn btn-sm btn-success">Terima</button>
+                                                    <?php } ?>
+                                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#revisiPengajuan">
+                                                        Revisi
+                                                    </button>
                                                 </div>
                                             </div>
                                             <?php } ?>
@@ -488,6 +510,7 @@
                                                     ak.role,
                                                     sp.status,
                                                     pp.catatan,
+                                                    pp.dokumen_revisi,
                                                     pp.tampilkan,
                                                     pp.dibuat_pada
                                                 FROM 
@@ -533,8 +556,17 @@
                                                         </p>
                                                         <?php if ($row['catatan']) { ?>
                                                             <div class="card card-body mt-1 p-2 border-0 shadow-none" style="border-radius: 7px; background-color: #e2e3e5;">
-                                                                <p class="mb-0 text-dark text-bold" style="font-size: 10px">Komentar: </p>
-                                                                <p class="mb-0 text-dark" style="font-size: 12px"><?php echo $row['catatan'] ?></p>
+                                                                <p class="mb-1 text-dark text-bold" style="font-size: 10px">Komentar: </p>
+                                                                <?php if (isset($row['dokumen_revisi'])) { ?>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <p class="mb-0 text-dark" style="font-size: 12px"><?php echo $row['catatan'] ?></p>
+                                                                    <a href="download-file.php?file=<?php echo $row['dokumen_revisi'] ?>">
+                                                                        <i class="fa-solid fa-file-arrow-down"></i>
+                                                                    </a>
+                                                                </div>
+                                                                <?php } else { ?>
+                                                                    <p class="mb-0 text-dark" style="font-size: 12px"><?php echo $row['catatan'] ?></p>
+                                                                <?php } ?>
                                                             </div>
                                                         <?php } ?>
                                                     </div>
@@ -551,6 +583,38 @@
                 <!-- Navbar -->
                 <?php include 'includes/footer.php' ?>
                 <!-- End Navbar -->
+            </div>
+        </div>
+        <div class="modal fade" id="revisiPengajuan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="revisiPengajuanLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="askReviseProposalForm" novalidate>
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="revisiPengajuanLabel">Revisi Pengajuan</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-1">
+                                <label for="dokumen_revisi" class="form-label">Dokumen Revisi <span class="text-danger fw-bold">*</span></label>
+                                <input 
+                                    id="dokumen_revisi" 
+                                    name="dokumen_revisi" 
+                                    type="file" 
+                                    class="form-control" 
+                                    accept="application/msword, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                />
+                            </div>
+                            <div class="mb-1">
+                                <label for="catatan" class="form-label">Catatan <span class="text-danger fw-bold">*</span></label>
+                                <textarea class="form-control" name="catatan" id="catatan" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-warning">Revisi</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <script src="assets/js/scripts.js"></script>
@@ -789,6 +853,47 @@
                                     toastr.success(response.message);
                                     setTimeout(function() {
                                         window.location.reload();
+                                    }, 2000);
+                                } else {
+                                    toastr.error(response.message);
+                                }
+                            }
+                        });
+                    }
+                });
+
+                // Form ask revisi submit form
+                $("#askReviseProposalForm").validate({
+                    rules: {
+                        dokumen_revisi: {
+                            extension: "docx", // Add valid file extensions here
+                            file_size_validator: true, // 2 MB (adjust as needed)
+                        },
+                        catatan: "required"
+                    },
+                    messages: {
+                        dokumen_revisi: {
+                            extension: "File yang diterima doc."
+                        },
+                        catatan: "Catatan tidak boleh kosong."
+                    },
+                    submitHandler: function(form) {
+                        event.preventDefault();
+                        // Use FormData to handle file and other form data
+                        var formData = new FormData(form);
+                        formData.append('id', id);
+                        // console.log(form);
+                        $.ajax({
+                            method:"POST",
+                            url: "services/document/ask-revise-proposal-service.php",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                if(response.success) {
+                                    toastr.success(response.message);
+                                    setTimeout(function() {
+                                        window.location.href = "persetujuan.php";
                                     }, 2000);
                                 } else {
                                     toastr.error(response.message);
