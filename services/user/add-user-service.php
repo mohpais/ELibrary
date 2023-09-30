@@ -36,7 +36,7 @@
             $message = "Akun sudah terdaftar!";
         } else {
             // Prepare and execute the query to insert user details into the database
-            $query = "INSERT INTO tbl_akun (kode, jabatan_id, nama_lengkap, password, jurusan, dibuat_oleh, terakhir_diubah_oleh) VALUES (:kd_user, :jabatan_id, :name, :password, :created_by, :created_by)";
+            $query = "INSERT INTO tbl_akun (kode, jabatan_id, nama_lengkap, password, jurusan, dibuat_oleh, terakhir_diubah_oleh) VALUES (:kd_user, :jabatan_id, :name, :password, :jurusan, :created_by, :created_by)";
             $stmt = $conn->prepare($query);
             // bind parameter ke query
             $params = array(
