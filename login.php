@@ -36,7 +36,7 @@
                                 <div class="card shadow-lg border-0 rounded-lg">
                                     <div class="card-body">
                                         <div class="w-100 text-center mb-4">
-                                            <div class="h2 fw-500 text-ubk">Selamat Datang!</div>
+                                            <div class="h2 fw-500 text-ubk">Selamat Datang UBK!</div>
                                             <div class="h5 fw-400 text-dark">Silahkan masuk untuk melanjutkan ...</div>
                                         </div>
                                         <form id="loginForm" class="row g-3" method="POST" novalidate>
