@@ -154,7 +154,7 @@
                         "data": "id",
                         "orderable": false,
                         "render": function (data, type, row) {
-                            let tipe = row.tipe === "Skripsi" ? 2 : 1;
+                            let tipe = row.tipe == "Skripsi" ? 2 : 1;
                             return '<button id="btnResponse" class="btn btn-primary" data-id="' + data + '" data-tipe="' + tipe + '"><i class="fa-solid fa-pen-to-square"></i></button>';
                         }
                     },
@@ -174,7 +174,7 @@
         $('#approvalTable').on('click', 'button#btnResponse', function () {
             let dataId = $(this).data('id');
             let dataTipe = $(this).data('tipe');
-            let url = dataTipe === 1 ? `laporan-kerja-praktek.php?id=${dataId}` : `skripsi.php?id=${dataId}`;
+            let url = dataTipe == 1 ? `laporan-kerja-praktek.php?id=${dataId}` : `skripsi.php?id=${dataId}`;
             window.location.href = url;
         });
         // $("#btnResponse").click(function() {

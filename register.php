@@ -169,7 +169,7 @@
                     if ($(this).hasClass()) {
                         
                     }
-                    // if ($('#password').val() === $('#confirm_password').val()) {
+                    // if ($('#password').val() == $('#confirm_password').val()) {
                     //     console.log('here');
                     // } else {
                     //     console.log('here 1');
@@ -179,7 +179,7 @@
                     //     url: "services/auth/register-service.php",
                     //     data:$(this).serialize(),
                     //     success: function(data) {
-                    //         if(data === 'success') {
+                    //         if(data == 'success') {
                     //             window.location.href="beranda.php";
                     //         } else {
                     //             $('#msg').html(data);

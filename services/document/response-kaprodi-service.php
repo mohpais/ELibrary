@@ -21,7 +21,7 @@
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             switch ($tanggapan) {
                 case 'Terima':
-                    if ($result && $result['status_pengajuan_id'] === 3) {
+                    if ($result && $result['status_pengajuan_id'] == 3) {
                         // Response untuk last dokumen
                         if ($result['surat_validasi']) {
                             $stmt1 = $conn->prepare("INSERT INTO tbl_proses_pengajuan (pengajuan_id, status_pengajuan_id, catatan, dibuat_oleh) VALUES (?, 11, ?, ?)");
@@ -49,7 +49,7 @@
                     $message = "Berhasil menerima pengajuan!";
                     break;
                 case 'Revisi':
-                    if ($result && $result['status_pengajuan_id'] === 3) {
+                    if ($result && $result['status_pengajuan_id'] == 3) {
                         // Response untuk last dokumen
                         if ($result['surat_validasi']) {
                             $stmt1 = $conn->prepare("INSERT INTO tbl_proses_pengajuan (pengajuan_id, status_pengajuan_id, catatan, dibuat_oleh) VALUES (?, 12, ?, ?)");

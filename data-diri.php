@@ -39,7 +39,7 @@
                         <div class="row flex-column gap-1">
                             <?php 
                                 if (
-                                    $_SESSION['user']['role'] === "Mahasiswa" &&
+                                    $_SESSION['user']['role'] == "Mahasiswa" &&
                                     !isset($_SESSION['user']['jurusan']) && 
                                     !isset($_SESSION['user']['semester']) && 
                                     !isset($_SESSION['user']['tanggal_bergabung'])) 
@@ -108,7 +108,7 @@
                                                 />
                                             </div>
                                         </div>
-                                        <?php if ($_SESSION['user']['role'] === 'Mahasiswa') { ?>
+                                        <?php if ($_SESSION['user']['role'] == 'Mahasiswa') { ?>
                                             <div class="row mb-3">
                                                 <label for="jurusan" class="col-md-3 col-lg-2 col-form-label">Jurusan <span class="text-danger fw-bold">*</span></label>
                                                 <div class="col-md-9 col-lg-10">
@@ -192,7 +192,7 @@
 
                     // Calculate the semester based on the difference in months
                     const semester = Math.ceil(monthsDiff / 6);
-                    return semester === 0 ? 1 : semester > 8 ? 8 : semester;
+                    return semester == 0 ? 1 : semester > 8 ? 8 : semester;
                 }
 
                 $('.datepicker').datepicker({
@@ -215,14 +215,14 @@
                         },
                         email: "email",
                         jurusan: {
-                            required: role === 'Mahasiswa' ? true : false
+                            required: role == 'Mahasiswa' ? true : false
                         },
                         tanggal_bergabung: {
-                            required: role === 'Mahasiswa' ? true : false,
+                            required: role == 'Mahasiswa' ? true : false,
                             date: true
                         },
                         semester: {
-                            required: role === 'Mahasiswa' ? true : false
+                            required: role == 'Mahasiswa' ? true : false
                         }
                     },
                     messages: {

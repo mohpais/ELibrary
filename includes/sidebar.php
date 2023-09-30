@@ -3,7 +3,7 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">Halaman Utama</div>
-                <a class="nav-link <?php echo get_current_url() === 'beranda' ? 'active' : '' ?>" href="beranda.php">
+                <a class="nav-link <?php echo get_current_url() == 'beranda' ? 'active' : '' ?>" href="beranda.php">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Beranda
                 </a>
@@ -11,9 +11,9 @@
                     <?php 
                         $set_active = "";
                         if (
-                            get_current_url() === 'laporan kerja praktek' ||
-                            get_current_url() === 'skripsi' ||
-                            get_current_url() === 'persetujuan'
+                            get_current_url() == 'laporan kerja praktek' ||
+                            get_current_url() == 'skripsi' ||
+                            get_current_url() == 'persetujuan'
                         ) {
                             $set_active = 'active';
                         }
@@ -26,27 +26,27 @@
                     </a>
                 <?php } ?>
                 <?php if ($_SESSION['user']['semester'] >= 6) { ?>
-                    <a class="nav-link <?php echo get_current_url() === 'laporan kerja praktek' || get_current_url() === 'skripsi' ? 'active' : 'collapsed' ?>" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
-                        aria-expanded="<?php echo get_current_url() === 'laporan kerja praktek' || get_current_url() === 'skripsi' ? 'true' : 'false' ?>" aria-controls="collapseLayouts">
+                    <a class="nav-link <?php echo get_current_url() == 'laporan kerja praktek' || get_current_url() == 'skripsi' ? 'active' : 'collapsed' ?>" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
+                        aria-expanded="<?php echo get_current_url() == 'laporan kerja praktek' || get_current_url() == 'skripsi' ? 'true' : 'false' ?>" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Unggahan
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse <?php echo get_current_url() === 'laporan kerja praktek' || get_current_url() === 'skripsi' ? 'show' : '' ?>" id="collapseLayouts" aria-labelledby="headingOne"
+                    <div class="collapse <?php echo get_current_url() == 'laporan kerja praktek' || get_current_url() == 'skripsi' ? 'show' : '' ?>" id="collapseLayouts" aria-labelledby="headingOne"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link <?php echo get_current_url() === 'laporan kerja praktek' ? 'fw-bold text-ubk bg-none' : '' ?>" href="laporan-kerja-praktek.php">Laporan Kerja Praktek</a>
+                            <a class="nav-link <?php echo get_current_url() == 'laporan kerja praktek' ? 'fw-bold text-ubk bg-none' : '' ?>" href="laporan-kerja-praktek.php">Laporan Kerja Praktek</a>
                             <?php if ($_SESSION['user']['semester'] == 8) { ?>
-                                <a class="nav-link <?php echo get_current_url() === 'skripsi' ? 'fw-bold text-ubk bg-none' : '' ?>" href="skripsi.php">Tugas Akhir (Skripsi)</a>
+                                <a class="nav-link <?php echo get_current_url() == 'skripsi' ? 'fw-bold text-ubk bg-none' : '' ?>" href="skripsi.php">Tugas Akhir (Skripsi)</a>
                             <?php } ?>
                         </nav>
                     </div>
                 <?php } ?>
                 <?php
-                    if ($_SESSION['user']['role'] === 'Admin') {
+                    if ($_SESSION['user']['role'] == 'Admin') {
                 ?>
                     <div class="sb-sidenav-menu-heading">Master Data</div>
-                    <a class="nav-link <?php echo get_current_url() === 'data pengguna' ? 'active' : '' ?>" href="data-pengguna.php">
+                    <a class="nav-link <?php echo get_current_url() == 'data pengguna' ? 'active' : '' ?>" href="data-pengguna.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                         Data Pengguna
                     </a>

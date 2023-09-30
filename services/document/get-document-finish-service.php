@@ -10,7 +10,7 @@
     require_once '../../config/connection.php';
     $kode_user = $_SESSION['user']['kode'];
     $role_user = $_SESSION['user']['role'];
-    $jurusan   = $role_user === "Kaprodi SI" ? "Sistem Informasi" : "Sistem Komputer";
+    $jurusan   = $role_user == "Kaprodi SI" ? "Sistem Informasi" : "Sistem Komputer";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             // Perform database connection

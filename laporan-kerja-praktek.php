@@ -111,7 +111,7 @@
                             <li class="breadcrumb-item">Panel</li>
                             <li class="breadcrumb-item active">Laporan Kerja Praktek</li>
                         </ol>
-                        <?php if (!isset($id) || $result['status_pengajuan_id'] === 7) { ?>
+                        <?php if (!isset($id) || $result['status_pengajuan_id'] == 7) { ?>
                             <?php if (!isset($id)) { ?>
                                 <div id="unggah-dokumen" class="row">
                                     <div class="col-12">
@@ -170,7 +170,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            <?php } elseif ($result['status_pengajuan_id'] === 7) { ?>
+                            <?php } elseif ($result['status_pengajuan_id'] == 7) { ?>
                                 <div id="revise-dokumen" class="row">
                                     <div class="col-md-8">
                                         <div class="card card-body shadow-sm">
@@ -367,7 +367,7 @@
                                             <?php 
                                                 if (
                                                     strpos($_SESSION['user']['role'], 'Kaprodi') !== false && 
-                                                    $result['status_pengajuan_id'] === 3
+                                                    $result['status_pengajuan_id'] == 3
                                                 ) { 
                                             ?>
                                                 <div class="row my-4">
@@ -392,7 +392,7 @@
                                                 <div class="row my-4">
                                                     <div class="col h5 card-title my-auto">Upload Dokumen Final</div>
                                                 </div>
-                                                <?php if ($result['status_pengajuan_id'] === 9) { ?>
+                                                <?php if ($result['status_pengajuan_id'] == 9) { ?>
                                                     <form id="lastDocumentForm" method="post" novalidate>
                                                         <div class="row mb-3">
                                                             <label for="surat_validasi" class="col-md-3 col-form-label">Surat Validasi <span class="text-danger fw-bold">*</span></label>
@@ -426,7 +426,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                <?php } elseif ($result['status_pengajuan_id'] === 13) { ?>
+                                                <?php } elseif ($result['status_pengajuan_id'] == 13) { ?>
                                                     <form id="reviseLastDocumentForm" method="post" novalidate>
                                                         <div class="row mb-2">
                                                             <label for="surat_validasi" class="col-md-3 col-form-label"></label>

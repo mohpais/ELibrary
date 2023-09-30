@@ -7,7 +7,7 @@
     // Include the database connection details from database.php
     require_once '../../config/connection.php';
     // Check if the register form is submitted
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $kd_user = $_POST['kode'];
         $fullname = $_POST['nama_lengkap'];
         $jabatan_id = $_POST['jabatan_id'];
@@ -16,7 +16,7 @@
 
         // Hash and encrypt the password using password_hash()
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-        if ($hashed_password === false) {
+        if ($hashed_password == false) {
             $error = password_get_info();
             // You can log the error or take appropriate action based on the error information.
             $message = "Password hash failed: " . $error['algo'];

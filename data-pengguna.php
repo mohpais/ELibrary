@@ -338,7 +338,7 @@
             // $('#userTable').on('click', 'button#btnResponse', function () {
             //     let dataId = $(this).data('id');
             //     let dataTipe = $(this).data('tipe');
-            //     let url = dataTipe === 1 ? `laporan-kerja-praktek.php?id=${dataId}` : `skripsi.php?id=${dataId}`;
+            //     let url = dataTipe == 1 ? `laporan-kerja-praktek.php?id=${dataId}` : `skripsi.php?id=${dataId}`;
             //     window.location.href = url;
             // });
         });

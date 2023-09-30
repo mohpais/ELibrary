@@ -7,7 +7,7 @@
     // Include the database connection details from database.php
     require_once '../../config/connection.php';
     // Check if the login form is submitted
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $kd_user = $_POST['kode_user'];
         $password = $_POST['password'];
         // Perform database connection

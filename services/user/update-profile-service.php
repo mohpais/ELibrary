@@ -7,7 +7,7 @@
     // Include the database connection details from database.php
     require_once '../../config/connection.php';
     // Check if the update profile form is submitted
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nama_lengkap = $_POST['full_name'];
         $no_telp = $_POST['no_telp'];
         $email = $_POST['email'];
