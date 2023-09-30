@@ -16,6 +16,8 @@
     <title>E-Library | Data Pengguna</title>
     <link href="assets/css/styles.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
+    <!-- Toast Library -->
+    <link href="assets/lib/toast/toast.min.css" rel="stylesheet" />
     <!-- DataTables Library -->
     <link rel="stylesheet" href="assets/lib/DataTables/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="assets/lib/DataTables/jquery.dataTables.min.css">
@@ -54,10 +56,10 @@
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="col-auto ms-auto">
-                                            <a type="button" href="" class="btn btn-sm btn-success">
+                                            <button id="openModalBtn" type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal-tambah-pengguna">
                                                 <i class="fas fa-user-plus"></i>
                                                 Tambah Pengguna
-                                            </a>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -66,6 +68,7 @@
                                         <thead>
                                             <tr>
                                                 <th>No.</th>
+                                                <th>Kode Pengguna</th>
                                                 <th>Nama Lengkap</th>
                                                 <th>Email</th>
                                                 <th>Jabatan</th>
@@ -78,6 +81,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th>No.</th>
+                                                <th>Kode Pengguna</th>
                                                 <th>Nama Lengkap</th>
                                                 <th>Email</th>
                                                 <th>Jabatan</th>
@@ -98,16 +102,93 @@
             <!-- End Navbar -->
         </div>
     </div>
+    <div class="modal fade" id="modal-tambah-pengguna" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="tambahPenggunaForm" novalidate>
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="staticBackdropLabel">Tambah Pengguna</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-1">
+                            <label for="kode" class="form-label">Kode Pengguna <span class="text-danger fw-bold">*</span></label>
+                            <input 
+                                id="kode" 
+                                type="text" 
+                                name="kode" 
+                                class="form-control" 
+                                placeholder="Masukkan kode pengguna ..."
+                            />
+                        </div>
+                        <div class="mb-1">
+                            <label for="nama_lengkap" class="form-label">Nama Lengkap <span class="text-danger fw-bold">*</span></label>
+                            <input 
+                                id="nama_lengkap" 
+                                type="text" 
+                                name="nama_lengkap" 
+                                class="form-control" 
+                                placeholder="Masukkan nama pengguna ..."
+                            />
+                        </div>
+                        <?php 
+                            // Perform database connection
+                            $conn = connect_to_database();
+                            $query = <<<EOD
+                                SELECT 
+                                    * 
+                                FROM 
+                                    `tbl_jabatan`
+                                WHERE
+                                    id NOT IN (
+                                        SELECT id FROM `tbl_jabatan` WHERE jabatan LIKE '%Kaprodi%' AND id IN (SELECT jabatan_id FROM `tbl_akun`)
+                                    )
+                            EOD;
+                            $stmt = $conn->prepare($query);
+                            $stmt->execute();
+                            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        ?>
+                        <div class="mb-1">
+                            <label for="jabatan_id" class="form-label">Jabatan <span class="text-danger fw-bold">*</span></label>
+                            <select id="jabatan_id" name="jabatan_id" class="form-select">
+                                <option value="" selected disabled>-- Pilih Salah Satu --</option>
+                                <?php foreach ($results as $result) { ?>
+                                    <option value="<?php echo $result['id']; ?>"><?php echo $result['jabatan']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="mb-1">
+                            <label for="jurusan" class="form-label">Jurusan <span class="text-danger fw-bold">*</span></label>
+                            <select id="jurusan" name="jurusan" class="form-select">
+                                <option value="" selected disabled>-- Pilih Salah Satu --</option>
+                                <option value="Sistem Informasi">Sistem Informasi</option>
+                                <option value="Sistem Komputer">Sistem Komputer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Simpan</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/js/scripts.js"></script>
-    <!-- Font Awesome Library -->
-    <script src="assets/lib/font-awesome/all.js"></script>
     <!-- JQuery Library -->
     <script src="assets/lib/jquery/jquery.min.js"></script>
+    <script src="assets/lib/jquery/jquery.validate.min.js"></script>
+    <script src="assets/lib/jquery/additional-methods.min.js"></script>
+    <!-- Font Awesome Library -->
+    <script src="assets/lib/font-awesome/all.js"></script>
     <!-- Bootstrap Library -->
     <script src="assets/lib/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- Toast Library -->
+    <script src="assets/lib/toast/toast.min.js"></script>
     <!-- DataTables Library -->
-    <script src="assets/lib/DataTables/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-    <script src="assets/lib/DataTables/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
+    <script src="assets/lib/DataTables/jquery.dataTables.min.js"></script>
+    <script src="assets/lib/DataTables/dataTables.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#userTable').DataTable({
@@ -148,6 +229,7 @@
                             return meta.row + 1;
                         }
                     },
+                    { "data": "kode" },
                     { "data": "nama_lengkap" },
                     { 
                         "data": "email",
@@ -159,7 +241,7 @@
                     },
                     { "data": "role" },
                     {
-                         "data": "no_telp" ,
+                        "data": "no_telp" ,
                         "render": function (data, type, row) {
                             // console.log(data);
                             // Check if the data is null, and if so, display a hyphen
@@ -169,6 +251,7 @@
                     { "data": "tanggal_bergabung" },
                     { 
                         "data": "id",
+                        "orderable": false,
                         "render": function (data, type, row) {
                             return '<button id="btnResponse" class="btn btn-warning" data-id="' + data + '"><i class="fa-solid fa-pen-to-square"></i></button>';
                         }
@@ -187,11 +270,11 @@
                     // 'dataIndex' is the index of the current row in the dataset
 
                     // Example: Add a class to a cell in the first column based on its data
-                    console.log(row, data, dataIndex);
                     if (!data.email) {
-                        $('td', row).eq(2).addClass('text-center');
-                    } else if (!data.no_telp) {
-                        $('td', row).eq(4).addClass('text-center');
+                        $('td', row).eq(3).addClass('text-center');
+                    }
+                    if (!data.no_telp) {
+                        $('td', row).eq(5).addClass('text-center');
                     }
                 },
                 "lengthMenu": [5, 25, 50, 100],
@@ -205,14 +288,61 @@
                     [5, "desc"]
                 ]
             });
+
+            // Form validate submit proposalForm
+            $("#tambahPenggunaForm").validate({
+                    rules: {
+                        kode: "required",
+                        nama_lengkap: "required",
+                        jabatan_id: "required",
+                        jurusan: "required",
+                    },
+                    messages: {
+                        kode: "Kode pengguna tidak boleh kosong.",
+                        nama_lengkap: "Nama lengkap tidak boleh kosong.",
+                        jabatan_id: "Jabatan tidak boleh kosong.",
+                        jurusan: "Jurusan tidak boleh kosong."
+                    },
+                    submitHandler: function(form) {
+                        // debugger;
+                        event.preventDefault();
+                        // Use FormData to handle file and other form data
+                        let payload = $(form).serialize();
+                        $.ajax({
+                            method:"POST",
+                            url: "services/user/add-user-service.php",
+                            data: payload,
+                            success: function(response) {
+                                // console.log(response);
+                                if(response.success) {
+                                    // console.log(response.message);
+                                    $("#modal-tambah-pengguna").modal('show');
+                                    toastr.success(response.message);
+                                    // Reload the page after 3 seconds
+                                    setTimeout(function() {
+                                        var id = response.message;
+                                        window.location.reload();
+                                    }, 2000);
+                                } else {
+                                    toastr.error(response.message);
+                                }
+                            }
+                        });
+                    }
+                });
+
+            // $("#openModalBtn").click(function() {
+            //     $("#modal-tambah-pengguna").modal('show');
+            // });
+            
+            // $('#userTable').on('click', 'button#btnResponse', function () {
+            //     let dataId = $(this).data('id');
+            //     let dataTipe = $(this).data('tipe');
+            //     let url = dataTipe === 1 ? `laporan-kerja-praktek.php?id=${dataId}` : `skripsi.php?id=${dataId}`;
+            //     window.location.href = url;
+            // });
         });
 
-        $('#userTable').on('click', 'button#btnResponse', function () {
-            let dataId = $(this).data('id');
-            let dataTipe = $(this).data('tipe');
-            let url = dataTipe === 1 ? `laporan-kerja-praktek.php?id=${dataId}` : `skripsi.php?id=${dataId}`;
-            window.location.href = url;
-        });
     </script>
 </body>
 

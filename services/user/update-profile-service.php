@@ -8,6 +8,12 @@
     require_once '../../config/connection.php';
     // Check if the update profile form is submitted
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $nama_lengkap = $_POST['full_name'];
+        $no_telp = $_POST['no_telp'];
+        $email = $_POST['email'];
+        $jurusan = isset($_POST['jurusan']) ? $_POST['jurusan'] : null;
+        $semester = isset($_POST['semester']) ? $_POST['semester'] : null;
+        $tanggal_bergabung = isset($_POST['tanggal_bergabung']) ? $_POST['tanggal_bergabung'] : null;
         // Perform database connection
         $conn = connect_to_database();
         $kd_user = $_POST['kode_user'];
@@ -23,12 +29,12 @@
             $stmt = $conn->prepare($query);
             // bind parameter ke query
             $params = array(
-                ":nama_lengkap" => $_POST['full_name'],
-                ":no_telp" => $_POST['no_telp'],
-                ":email" => $_POST['email'],
-                ":jurusan" => $_POST['jurusan'],
-                ":semester" => $_POST['semester'],
-                ":tanggal_bergabung" => $_POST['tanggal_bergabung'],
+                ":nama_lengkap" => $nama_lengkap,
+                ":no_telp" => $no_telp,
+                ":email" => $email,
+                ":jurusan" => $jurusan,
+                ":semester" => $semester,
+                ":tanggal_bergabung" => $tanggal_bergabung,
                 ":kd_user" => $kd_user
             );
         

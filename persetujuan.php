@@ -23,8 +23,8 @@
     <link href="assets/css/styles.css" rel="stylesheet" />
     <link href="assets/css/custom.css" rel="stylesheet" />
     <!-- DataTables Library -->
-    <link rel="stylesheet" href="assets/lib/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="assets/lib/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="assets/lib/DataTables/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="assets/lib/DataTables/jquery.dataTables.min.css">
     <style>
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             padding: 0 !important;
@@ -71,6 +71,7 @@
                                                 <th>Tipe Pengajuan</th>
                                                 <th>Judul</th>
                                                 <th>Tanggal Dibuat</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -81,6 +82,7 @@
                                                 <th>Tipe Pengajuan</th>
                                                 <th>Judul</th>
                                                 <th>Tanggal Dibuat</th>
+                                                <th></th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -103,8 +105,8 @@
     <!-- Bootstrap Library -->
     <script src="assets/lib/bootstrap/bootstrap.bundle.min.js"></script>
     <!-- DataTables Library -->
-    <script src="assets/lib/DataTables/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-    <script src="assets/lib/DataTables/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
+    <script src="assets/lib/DataTables/jquery.dataTables.min.js"></script>
+    <script src="assets/lib/DataTables/dataTables.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#approvalTable').DataTable({
@@ -150,6 +152,7 @@
                     { "data": "dibuat_pada" },
                     { 
                         "data": "id",
+                        "orderable": false,
                         "render": function (data, type, row) {
                             let tipe = row.tipe === "Skripsi" ? 2 : 1;
                             return '<button id="btnResponse" class="btn btn-primary" data-id="' + data + '" data-tipe="' + tipe + '"><i class="fa-solid fa-pen-to-square"></i></button>';

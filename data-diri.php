@@ -39,6 +39,7 @@
                         <div class="row flex-column gap-1">
                             <?php 
                                 if (
+                                    $_SESSION['user']['role'] === "Mahasiswa" &&
                                     !isset($_SESSION['user']['jurusan']) && 
                                     !isset($_SESSION['user']['semester']) && 
                                     !isset($_SESSION['user']['tanggal_bergabung'])) 
