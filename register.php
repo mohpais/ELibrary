@@ -126,7 +126,7 @@
                         success: function(response) {
                             if(response.success) {
                                 toastr.success(response.message);
-                                // window.location.href="login.php";
+                                window.location.href="login.php";
                             } else {
                                 toastr.error(response.message);
                             }

@@ -13,7 +13,10 @@
             $kode_user = $_SESSION['user']['kode'];
             $pengajuan_id = $_POST['id'];
             $catatan = $_POST['catatan'];
-            $filename_dokumen_revisi = "Dokumen Revisi-" . time() . "-" . $kode_user . "." . $extension = pathinfo($_FILES["dokumen_revisi"]["name"], PATHINFO_EXTENSION);
+            $filename_dokumen_revisi = null;
+            if (isset($_FILES["dokumen_revisi"]["name"])) {
+                $filename_dokumen_revisi = "Dokumen Revisi-" . time() . "-" . $kode_user . "." . $extension = pathinfo($_FILES["dokumen_revisi"]["name"], PATHINFO_EXTENSION);
+            }
 
             // Start a transaction
             $conn->beginTransaction();
@@ -42,20 +45,21 @@
                     $stmt3 = $conn->prepare("UPDATE tbl_pengajuan SET status_pengajuan_id = 7, terakhir_diubah_oleh = ? WHERE id = ?");
                     $stmt3->execute([$kode_user, $pengajuan_id]);
                 }
-                $targetDir = "../../uploads/";
-                $targetFile = $targetDir . basename($filename_dokumen_revisi);
-                // Check if the file already exists
-                if (file_exists($targetFile)) {
-                    throw new Exception("File sudah ada.");
-                } else {
-                    // Try to move the uploaded file to the specified directory
-                    if (move_uploaded_file($_FILES["dokumen_revisi"]["tmp_name"], $targetFile)) {
-                        $success = true;
+                if ($filename_dokumen_revisi != null) {
+                    $targetDir = "../../uploads/";
+                    $targetFile = $targetDir . basename($filename_dokumen_revisi);
+                    // Check if the file already exists
+                    if (file_exists($targetFile)) {
+                        throw new Exception("File sudah ada.");
                     } else {
-                        throw new Exception("Error uploading file.");
+                        // Try to move the uploaded file to the specified directory
+                        if (move_uploaded_file($_FILES["dokumen_revisi"]["tmp_name"], $targetFile)) {
+                            $success = true;
+                        } else {
+                            throw new Exception("Error uploading file.");
+                        }
                     }
                 }
-
             } else {
                 throw new Exception("Pengajuan tidak ditemukan!");
             }

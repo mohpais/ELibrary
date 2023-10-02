@@ -95,7 +95,7 @@
                             success: function(response) {
                                 if(response.success) {
                                     toastr.success("Login berhasil");
-                                    window.localStorage.setItem("user", JSON.stringify(response.message));
+                                    // window.localStorage.setItem("user", JSON.stringify(response.message));
                                     window.location.href="beranda.php";
                                 } else {
                                     toastr.error(response.message);
