@@ -182,7 +182,7 @@
                         "data": "dokumen_akhir",
                         "orderable": false,
                         "render": function (data, type, row) {
-                            return '<a id="btnResponse" type="button" class="btn btn-primary" href="download.php?file=' + data + '" target="_blank"><i class="fa-solid fa-file-arrow-down"></i></a>';
+                            return '<a target="_blank" id="btnResponse" type="button" class="btn btn-primary" href="services/download-file.php?file=' + data + '" target="_blank"><i class="fa-solid fa-file-arrow-down"></i></a>';
                         }
                     },
                 ],

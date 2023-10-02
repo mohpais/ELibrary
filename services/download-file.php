@@ -1,7 +1,7 @@
 <?php
 $file = $_GET['file']; // Get the file name or path from a query parameter
 // Add security checks and validation here, e.g., check user permissions, sanitize input, etc.
-$file_path = '../../uploads/' . $file; // Set the path to your folder
+$file_path = '../uploads/' . $file; // Set the path to your folder
 if (file_exists($file_path)) {
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');

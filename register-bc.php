@@ -20,71 +20,64 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>E-Library | Pendaftaran</title>
-    <link href="assets/css/login.css" rel="stylesheet" />
+    <link href="assets/css/styles.css" rel="stylesheet" />
+    <link href="assets/css/custom.css" rel="stylesheet" />
     <!-- Toast Library -->
     <link href="assets/lib/toast/toast.min.css" rel="stylesheet" />
-    <style>
-        .error {
-            color: red;
-        }
-    </style>
+    <!-- Bootstrap Library -->
+    <link href="assets/lib/bootstrap/bootstrap-datepicker.min.css" rel="stylesheet" />
 </head>
 
-<body >
-    <section class="ftco-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-12 col-lg-10">
-                    <div class="wrap d-md-flex">
-                        <div class="text-wrap p-3 p-lg-4 text-center d-flex align-items-center order-md-last">
-                            <div class="text w-100">
-                                <h2>Perpustakaan Online</h2>
-                                <h4>Fakultas Ilmu Komputer</h4>
-                            </div>
-                        </div>
-                        <div class="login-wrap px-4 py-3 py-lg-4">
-                            <div class="w-100">
-                                <h3 class="mb-2">Daftar disini!</h3>
-                            </div>
-                            <form id="loginForm" action="POST" class="signin-form" novalidate>
-                                <div class="form-group mb-1">
-                                    <label class="label" for="kode_user">Kode User</label>
-                                    <input type="text" class="form-control" id="kode_user" name="kode_user"
+<body class="bg-ubk py-auto">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center align-items-center min-vh-100">
+                        <div class="col-lg-6">
+                            <div class="card shadow-lg border-0 rounded-lg">
+                                <div class="card-body">
+                                    <div class="w-100 text-center mb-4">
+                                        <div class="h3 fw-500 text-ubk">Bergabung dengan kami!</div>
+                                        <div class="h6 fw-400 text-dark">Silahkan daftar untuk dapat mengakses website
+                                            ...</div>
+                                    </div>
+                                    <form id="registrationForm" class="row g-3" method="POST" novalidate>
+                                        <div class="col-12">
+                                            <label for="kode_user" class="form-label mb-1">Kode Mahasiswa</label>
+                                            <input type="text" class="form-control" id="kode_user" name="kode_user"
                                                 placeholder="Masukkan kode mahasiswa ..." onkeypress="return onlyNumberKey(event)" />
-                                </div>
-                                <div class="form-group mb-1">
-                                    <label class="label" for="full_name">Nama Lengkap</label>
-                                    <input type="text" class="form-control" id="full_name" name="full_name"
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <label for="full_name" class="form-label mb-1">Nama Lengkap</label>
+                                            <input type="text" class="form-control" id="full_name" name="full_name"
                                                 placeholder="Masukkan nama lengkap ..." />
+                                        </div>
+                                        <div class="col-md-6 mt-2">
+                                            <label for="password" class="form-label mb-1">Kata Sandi</label>
+                                            <input type="password" class="form-control" id="password" name="password"
+                                                placeholder="Masukkan kata sandi ..." />
+                                        </div>
+                                        <div class="col-md-6 mt-2">
+                                            <label for="confirm_password" class="form-label mb-1">Ulangi Kata Sandi</label>
+                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                                                placeholder="Masukkan kata sandi ..." />
+                                        </div>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-ubk">Daftar</button>
+                                        </div>
+                                        <div class="d-grid gap-0 mt-2 mb-0">
+                                            <p>Sudah punya akun? <a href="login.php">Masuk disini!</a></p>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="form-group mb-1">
-                                    <label class="label" for="password">Kata Sandi</label>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Masukkan kata sandi ..." />
-                                </div>
-                                <div class="form-group mb-1">
-                                    <label class="label" for="confirm_password">Ulangi Kata Sandi</label>
-                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password"
-                                        placeholder="Masukkan kata sandi ..." />
-                                </div>
-                                <div class="form-group mt-3">
-                                    <button type="submit" class="form-control btn btn-primary submit px-3">Daftar</button>
-                                </div>
-                                <div class="form-group d-md-flex">
-                                    <div class="w-50 text-left">
-                                        Sudah punya akun?
-                                    </div>
-                                    <div class="w-50 text-md-right">
-                                        <a href="login.php" class="text-primary">Masuk disini!</a>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
-    </section>
+    </div>
     <script src="assets/js/scripts.js"></script>
     <!-- JQuery Library -->
     <script src="assets/lib/jquery/jquery.min.js"></script>

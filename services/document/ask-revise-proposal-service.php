@@ -14,7 +14,7 @@
             $pengajuan_id = $_POST['id'];
             $catatan = $_POST['catatan'];
             $filename_dokumen_revisi = null;
-            if (isset($_FILES["dokumen_revisi"]["name"])) {
+            if (!empty($_FILES["dokumen_revisi"]["name"])) {
                 $filename_dokumen_revisi = "Dokumen Revisi-" . time() . "-" . $kode_user . "." . $extension = pathinfo($_FILES["dokumen_revisi"]["name"], PATHINFO_EXTENSION);
             }
 

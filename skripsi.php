@@ -176,7 +176,7 @@
                                 <div id="revise-dokumen" class="row">
                                     <div class="col-8">
                                         <div class="card card-body shadow-sm">
-                                            <h4 class="card-title mb-3">Revise Dokumen</h4>
+                                            <h4 class="card-title mb-3">Revisi Dokumen</h4>
                                             <form id="reviseProposalForm" novalidate>
                                                 <input type="hidden" name="pengajuan_id" value="<?php echo $id; ?>">
                                                 <div class="row mb-3">
@@ -208,7 +208,9 @@
                                                 <div class="row mb-2">
                                                     <div class="col-md-3"></div>
                                                     <div class="col-md-9 d-flex">
-                                                        <span class="badge my-auto bg-info"><i class="fas fa-download"></i> <?php echo $result['dokumen_pengajuan'] ?></span>
+                                                        <a target="_blank" href="services/download-file.php?file=<?php echo $result['dokumen_pengajuan']; ?>">
+                                                            <span class="badge my-auto bg-info"><i class="fas fa-download"></i> <?php echo $result['dokumen_pengajuan'] ?></span>
+                                                        </a>
                                                     </div>
                                                 </div>
 
@@ -300,7 +302,7 @@
                                                                     <?php if (isset($row['dokumen_revisi'])) { ?>
                                                                     <div class="d-flex justify-content-between">
                                                                         <p class="mb-0 text-dark" style="font-size: 12px"><?php echo $row['catatan'] ?></p>
-                                                                        <a href="download-file.php?file=<?php echo $row['dokumen_revisi'] ?>">
+                                                                        <a target="_blank" href="download-file.php?file=<?php echo $row['dokumen_revisi'] ?>">
                                                                             <i class="fa-solid fa-file-arrow-down"></i>
                                                                         </a>
                                                                     </div>
@@ -337,18 +339,30 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4 label ">Dokumen Proposal</div>
-                                                <div class="col-md-8"><a href=""><i class="fas fa-download"></i> <?php echo $result['dokumen_pengajuan'] ?></a></div>
+                                                <div class="col-md-8">
+                                                    <a target="_blank" href="services/download-file.php?file=<?php echo $result['dokumen_pengajuan'] ?>">
+                                                        <i class="fas fa-download"></i> <?php echo $result['dokumen_pengajuan'] ?>
+                                                    </a>
+                                                </div>
                                             </div>
                                             <?php if ($result['surat_validasi'] && $result['status_pengajuan_id'] !== 13) { ?>
                                                 <div class="row">
                                                     <div class="col-md-4 label ">Surat Validasi</div>
-                                                    <div class="col-md-8"><a href=""><i class="fas fa-download"></i> <?php echo $result['surat_validasi'] ?></a></div>
+                                                    <div class="col-md-8">
+                                                        <a target="_blank" href="services/download-file.php?file=<?php echo $result['surat_validasi'] ?>">
+                                                            <i class="fas fa-download"></i> <?php echo $result['surat_validasi'] ?>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             <?php } ?>
                                             <?php if ($result['dokumen_akhir'] && $result['status_pengajuan_id'] !== 13) { ?>
                                                 <div class="row">
                                                     <div class="col-md-4 label ">Dokumen Akhir</div>
-                                                    <div class="col-md-8"><a href=""><i class="fas fa-download"></i> <?php echo $result['dokumen_akhir'] ?></a></div>
+                                                    <div class="col-md-8">
+                                                        <a target="_blank" href="services/download-file.php?file=<?php echo $result['dokumen_akhir'] ?>">
+                                                            <i class="fas fa-download"></i> <?php echo $result['dokumen_akhir'] ?>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             <?php } ?>
                                             <div class="row">
@@ -399,7 +413,7 @@
                                                     <?php } else { ?>
                                                         <button id="action-accept" type="button" class="btn btn-sm btn-success">Terima</button>
                                                     <?php } ?>
-                                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#revisiPengajuan">
+                                                    <button id="action-revisi" type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#revisiPengajuan">
                                                         Revisi
                                                     </button>
                                                 </div>
@@ -411,10 +425,10 @@
                                                     in_array($result['status_pengajuan_id'], array(9, 13))
                                                 ) { 
                                             ?>
-                                                <div class="row my-4">
-                                                    <div class="col h5 card-title my-auto">Upload Dokumen Final</div>
-                                                </div>
                                                 <?php if ($result['status_pengajuan_id'] == 9) { ?>
+                                                    <div class="row my-4">
+                                                        <div class="col h5 card-title my-auto">Upload Dokumen Final</div>
+                                                    </div>
                                                     <form id="lastDocumentForm" method="post" novalidate>
                                                         <div class="row mb-3">
                                                             <label for="surat_validasi" class="col-md-3 col-form-label">Surat Validasi <span class="text-danger fw-bold">*</span></label>
@@ -449,11 +463,16 @@
                                                         </div>
                                                     </form>
                                                 <?php } elseif ($result['status_pengajuan_id'] == 13) { ?>
+                                                    <div class="row my-4">
+                                                        <div class="col h5 card-title my-auto">Revisi Dokumen Final</div>
+                                                    </div>
                                                     <form id="reviseLastDocumentForm" method="post" novalidate>
                                                         <div class="row mb-2">
                                                             <label for="surat_validasi" class="col-md-3 col-form-label"></label>
                                                             <div class="col-md-9">
-                                                                <span class="badge bg-info"><?php echo $result['surat_validasi']; ?></span>
+                                                                <a target="_blank" href="services/download-file.php?file=<?php echo $result['surat_validasi']; ?>">
+                                                                    <span class="badge bg-info"><?php echo $result['surat_validasi']; ?></span>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                         <div class="row mb-3">
@@ -471,7 +490,9 @@
                                                         <div class="row mb-2">
                                                             <label for="surat_validasi" class="col-md-3 col-form-label"></label>
                                                             <div class="col-md-9">
-                                                                <span class="badge bg-info"><?php echo $result['dokumen_akhir']; ?></span>
+                                                                <a target="_blank" href="services/download-file.php?file=<?php echo $result['dokumen_akhir']; ?>">
+                                                                    <span class="badge bg-info"><?php echo $result['dokumen_akhir']; ?></span>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                         <div class="row mb-3">
@@ -595,7 +616,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="mb-1">
-                                <label for="dokumen_revisi" class="form-label">Dokumen Revisi <span class="text-danger fw-bold">*</span></label>
+                                <label for="dokumen_revisi" class="form-label">Dokumen Revisi</label>
                                 <input 
                                     id="dokumen_revisi" 
                                     name="dokumen_revisi" 
@@ -685,6 +706,7 @@
                     submitHandler: function(form) {
                         // debugger;
                         event.preventDefault();
+                        $(form).find("#btnSubmit, #btnSimpan").prop("disabled", true);
                         // Use FormData to handle file and other form data
                         var formData = new FormData(form);
                         formData.append('tipe_dokumen', 2);
@@ -699,13 +721,13 @@
                                 if(response.success) {
                                     // console.log(response.message);
                                     toastr.success("File berhasil diupload!");
-                                    $(form).find("#btnSubmit, #btnSimpan").prop("disabled", true);
                                     // Reload the page after 3 seconds
                                     setTimeout(function() {
                                         var id = response.message;
-                                        window.location.href=`skripsi.php?id=${id}`;
+                                        window.location.reload();
                                     }, 2000);
                                 } else {
+                                    $(form).find("#btnSubmit, #btnSimpan").prop("disabled", false);
                                     toastr.error(response.message);
                                 }
                             }
@@ -787,6 +809,7 @@
                     submitHandler: function(form) {
                         // debugger;
                         event.preventDefault();
+                        $(form).find("#btnSubmit").prop("disabled", true);
                         // Use FormData to handle file and other form data
                         var formData = new FormData(form);
                         formData.append('id', id);
@@ -800,12 +823,12 @@
                             success: function(response) {
                                 // console.log(response);
                                 if(response.success) {
-                                    $(form).find("#btnSubmit").prop("disabled", false);
                                     toastr.success(response.message);
                                     setTimeout(function() {
                                         window.location.reload();
                                     }, 2000);
                                 } else {
+                                    $(form).find("#btnSubmit").prop("disabled", false);
                                     toastr.error(response.message);
                                 }
                             }
@@ -836,6 +859,7 @@
                     submitHandler: function(form) {
                         // debugger;
                         event.preventDefault();
+                        $(form).find("#btnRevise").prop("disabled", true);
                         // Use FormData to handle file and other form data
                         var formData = new FormData(form);
                         formData.append('id', id);
@@ -849,12 +873,12 @@
                             success: function(response) {
                                 // console.log(response);
                                 if(response.success) {
-                                    $(form).find("#btnSubmit").prop("disabled", false);
                                     toastr.success(response.message);
                                     setTimeout(function() {
                                         window.location.reload();
                                     }, 2000);
                                 } else {
+                                    $(form).find("#btnRevise").prop("disabled", false);
                                     toastr.error(response.message);
                                 }
                             }
@@ -879,6 +903,7 @@
                     },
                     submitHandler: function(form) {
                         event.preventDefault();
+                        $(form).find("button").prop("disabled", true);
                         // Use FormData to handle file and other form data
                         var formData = new FormData(form);
                         formData.append('id', id);
@@ -896,6 +921,7 @@
                                         window.location.href = "persetujuan.php";
                                     }, 2000);
                                 } else {
+                                    $(form).find("button").prop("disabled", false);
                                     toastr.error(response.message);
                                 }
                             }
@@ -907,19 +933,19 @@
                 $('#action-publish, #action-accept').click(function () {
                     var catatan = $("textarea#catatan").val();
                     let payload = { id, catatan, tanggapan: "Terima" };
-
+                    $('#action-publish, #action-accept, #action-revisi').prop("disabled", true);
                     $.ajax({
                         method:"POST",
                         url: "services/document/response-kaprodi-service.php",
                         data: payload,
                         success: function(response) {
                             if(response.success) {
-                                $('#action-publish, #action-accept').prop("disabled", true);
                                 toastr.success(response.message);
                                 setTimeout(() => {
                                     window.location.href = 'persetujuan.php';
                                 }, 2000);
                             } else {
+                                $('#action-publish, #action-accept').prop("disabled", false);
                                 toastr.error(response.message);
                             }
                         }
@@ -930,7 +956,7 @@
                 $('#action-revise').click(function () {
                     var catatan = $("textarea#catatan").val();
                     let payload = { id, catatan, tanggapan: "Revisi" };
-
+                    $('#action-revise').prop("disabled", true);
                     $.ajax({
                         method:"POST",
                         url: "services/document/response-kaprodi-service.php",
@@ -942,6 +968,7 @@
                                     window.location.href = 'persetujuan.php';
                                 }, 2000);
                             } else {
+                                $('#action-revise').prop("disabled", false);
                                 toastr.error(response.message);
                             }
                         }
