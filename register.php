@@ -46,7 +46,7 @@
                             <div class="w-100">
                                 <h3 class="mb-2">Daftar disini!</h3>
                             </div>
-                            <form id="loginForm" action="POST" class="signin-form" novalidate>
+                            <form id="registrationForm" action="POST" class="signin-form" novalidate>
                                 <div class="form-group mb-1">
                                     <label class="label" for="kode_user">Kode User</label>
                                     <input type="text" class="form-control" id="kode_user" name="kode_user"

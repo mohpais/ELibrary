@@ -3,7 +3,7 @@
     require_once 'helpers/authorize.php';
     require_once 'helpers/functions.php';
     require_once 'config/connection.php';
-    if ($_SESSION['user']['semester'] < 8) header("Location: beranda.php");
+    if ($_SESSION['user']['role'] == 'Mahasiswa' && $_SESSION['user']['semester'] < 8) header("Location: beranda.php");
     // Perform database connection
     $conn = connect_to_database();
     if (isset($_GET['id'])) {
@@ -48,7 +48,7 @@
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$result) header("Location: 404.php");
     } else {
-        if (strpos($_SESSION['user']['role'], 'Kaprodi') !== false) header("Location: beranda.php");
+        if (strpos($_SESSION['user']['role'], 'Kaprodi') != false) header("Location: beranda.php");
         $query = "SELECT p.id FROM `tbl_pengajuan` p WHERE p.dibuat_oleh=? AND p.tipe_pengajuan_id = 2";
         $stmt = $conn->prepare($query);
         // bind parameter ke query
@@ -345,7 +345,7 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <?php if ($result['surat_validasi'] && $result['status_pengajuan_id'] !== 13) { ?>
+                                            <?php if ($result['surat_validasi'] && $result['status_pengajuan_id'] != 13) { ?>
                                                 <div class="row">
                                                     <div class="col-md-4 label ">Surat Validasi</div>
                                                     <div class="col-md-8">
@@ -355,7 +355,7 @@
                                                     </div>
                                                 </div>
                                             <?php } ?>
-                                            <?php if ($result['dokumen_akhir'] && $result['status_pengajuan_id'] !== 13) { ?>
+                                            <?php if ($result['dokumen_akhir'] && $result['status_pengajuan_id'] != 13) { ?>
                                                 <div class="row">
                                                     <div class="col-md-4 label ">Dokumen Akhir</div>
                                                     <div class="col-md-8">
