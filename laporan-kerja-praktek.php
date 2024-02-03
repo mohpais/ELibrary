@@ -145,12 +145,20 @@
                                                 <div class="row mb-3">
                                                     <label for="dokumen_proposal" class="col-md-3 col-form-label">Dokumen Proposal <span class="text-danger fw-bold">*</span></label>
                                                     <div class="col-md-9">
-                                                        <input 
+                                                        <!-- <input 
                                                             id="dokumen_proposal" 
                                                             name="dokumen_proposal" 
                                                             type="file" 
                                                             class="form-control" 
                                                             accept="application/msword, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                            required
+                                                        /> -->
+                                                        <input 
+                                                            id="dokumen_proposal" 
+                                                            name="dokumen_proposal" 
+                                                            type="file" 
+                                                            class="form-control" 
+                                                            accept="application/pdf"
                                                             required
                                                         />
                                                     </div>
@@ -215,12 +223,19 @@
                                                 <div class="row">
                                                     <label for="dokumen_proposal" class="col-md-3 col-form-label">Ganti Dokumen Proposal</label>
                                                     <div class="col-md-9">
-                                                        <input 
+                                                        <!-- <input 
                                                             id="dokumen_proposal" 
                                                             name="dokumen_proposal" 
                                                             type="file" 
                                                             class="form-control" 
                                                             accept="application/msword, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                        /> -->
+                                                        <input 
+                                                            id="dokumen_proposal" 
+                                                            name="dokumen_proposal" 
+                                                            type="file" 
+                                                            class="form-control" 
+                                                            accept="application/pdf"
                                                         />
                                                     </div>
                                                 </div>
@@ -411,12 +426,20 @@
                                                         <div class="row mb-3">
                                                             <label for="surat_validasi" class="col-md-3 col-form-label">Surat Validasi <span class="text-danger fw-bold">*</span></label>
                                                             <div class="col-md-9">
-                                                                <input 
+                                                                <!-- <input 
                                                                     id="surat_validasi" 
                                                                     name="surat_validasi" 
                                                                     type="file" 
                                                                     class="form-control" 
                                                                     accept="application/msword, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                                    required
+                                                                /> -->
+                                                                <input 
+                                                                    id="surat_validasi" 
+                                                                    name="surat_validasi" 
+                                                                    type="file" 
+                                                                    class="form-control" 
+                                                                    accept="application/pdf"
                                                                     required
                                                                 />
                                                             </div>
@@ -456,12 +479,19 @@
                                                         <div class="row mb-3">
                                                             <label for="surat_validasi" class="col-md-3 col-form-label">Ganti Surat Validasi</label>
                                                             <div class="col-md-9">
-                                                                <input 
+                                                                <!-- <input 
                                                                     id="surat_validasi" 
                                                                     name="surat_validasi" 
                                                                     type="file" 
                                                                     class="form-control" 
                                                                     accept="application/msword, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                                /> -->
+                                                                <input 
+                                                                    id="surat_validasi" 
+                                                                    name="surat_validasi" 
+                                                                    type="file" 
+                                                                    class="form-control" 
+                                                                    accept="application/pdf"
                                                                 />
                                                             </div>
                                                         </div>
@@ -595,12 +625,19 @@
                         <div class="modal-body">
                             <div class="mb-1">
                                 <label for="dokumen_revisi" class="form-label">Dokumen Revisi</label>
-                                <input 
+                                <!-- <input 
                                     id="dokumen_revisi" 
                                     name="dokumen_revisi" 
                                     type="file" 
                                     class="form-control" 
                                     accept="application/msword, application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                /> -->
+                                <input 
+                                    id="dokumen_revisi" 
+                                    name="dokumen_revisi" 
+                                    type="file" 
+                                    class="form-control" 
+                                    accept="application/pdf"
                                 />
                             </div>
                             <div class="mb-1">
@@ -649,18 +686,18 @@
                     });
                 }
                 // Add validator
-                $.validator.addMethod("file_size_validator", function(value, element) {
-                    var maxSize = 1024 * 1024; // 1 MB (adjust as needed)
-                    var fileInput = element;
+                // $.validator.addMethod("file_size_validator", function(value, element) {
+                //     var maxSize = 1024 * 1024; // 1 MB (adjust as needed)
+                //     var fileInput = element;
 
-                    // Check if a file has been selected
-                    if (fileInput.files && fileInput.files[0]) {
-                        var fileSize = fileInput.files[0].size;
-                        return fileSize <= maxSize;
-                    }
+                //     // Check if a file has been selected
+                //     if (fileInput.files && fileInput.files[0]) {
+                //         var fileSize = fileInput.files[0].size;
+                //         return fileSize <= maxSize;
+                //     }
 
-                    return true;
-                }, "Ukuran file apa pun tidak boleh melebihi 1 MB");
+                //     return true;
+                // }, "Ukuran file apa pun tidak boleh melebihi 1 MB");
 
                 // Form validate submit proposalForm
                 $("#proposalForm").validate({
@@ -669,8 +706,9 @@
                         pembimbing: "required",
                         dokumen_proposal: {
                             required: true,
-                            extension: "doc|docx|pdf", // Add valid file extensions here
-                            file_size_validator: true, // 2 MB (adjust as needed)
+                            // extension: "doc|docx|pdf", // Add valid file extensions here
+                            extension: "pdf", // Add valid file extensions here
+                            // file_size_validator: true, // 2 MB (adjust as needed)
                         }
                     },
                     messages: {
@@ -678,7 +716,7 @@
                         pembimbing: "Dosen pembimbing tidak boleh kosong.",
                         dokumen_proposal: {
                             required: "Dokumen tidak boleh kosong.",
-                            extension: "File yang diterima doc, docx, dan pdf"
+                            extension: "File yang diterima pdf"
                         }
                     },
                     submitHandler: function(form) {
@@ -718,8 +756,9 @@
                         judul: "required",
                         pembimbing: "required",
                         dokumen_proposal: {
-                            extension: "doc|docx|pdf", // Add valid file extensions here
-                            file_size_validator: true, // 2 MB (adjust as needed)
+                            // extension: "doc|docx|pdf", // Add valid file extensions here
+                            extension: "pdf", // Add valid file extensions here
+                            // file_size_validator: true, // 2 MB (adjust as needed)
                         }
                     },
                     messages: {
@@ -727,7 +766,7 @@
                         pembimbing: "Dosen pembimbing tidak boleh kosong.",
                         dokumen_proposal: {
                             required: "Dokumen tidak boleh kosong.",
-                            extension: "File yang diterima doc, docx, dan pdf"
+                            extension: "File yang diterima pdf"
                         }
                     },
                     submitHandler: function(form) {
@@ -765,8 +804,9 @@
                     rules: {
                         surat_validasi: {
                             required: true,
-                            extension: "doc|docx|pdf", // Add valid file extensions here
-                            file_size_validator: true, // 2 MB (adjust as needed)
+                            extension: "pdf", // Add valid file extensions here
+                            // extension: "doc|docx|pdf", // Add valid file extensions here
+                            // file_size_validator: true, // 2 MB (adjust as needed)
                         },
                         lkp_document: {
                             required: true,
@@ -777,11 +817,11 @@
                     messages: {
                         surat_validasi: {
                             required: "Dokumen tidak boleh kosong.",
-                            extension: "File yang diterima doc, docx, dan pdf"
+                            extension: "File yang diterima dan pdf"
                         },
                         lkp_document: {
                             required: "Dokumen tidak boleh kosong.",
-                            extension: "File yang diterima doc, docx, dan pdf"
+                            extension: "File yang diterima dan pdf"
                         }
                     },
                     submitHandler: function(form) {
@@ -819,19 +859,19 @@
                     rules: {
                         surat_validasi: {
                             extension: "doc|docx|pdf", // Add valid file extensions here
-                            file_size_validator: true, // 2 MB (adjust as needed)
+                            // file_size_validator: true, // 2 MB (adjust as needed)
                         },
                         lkp_document: {
                             extension: "pdf", // Add valid file extensions here
-                            file_size_validator: true, // 2 MB (adjust as needed)
+                            // file_size_validator: true, // 2 MB (adjust as needed)
                         }
                     },
                     messages: {
                         surat_validasi: {
-                            extension: "File yang diterima doc, docx, dan pdf"
+                            extension: "File yang diterima pdf"
                         },
                         lkp_document: {
-                            extension: "File yang diterima doc, docx, dan pdf"
+                            extension: "File yang diterima pdf"
                         }
                     },
                     submitHandler: function(form) {
@@ -868,14 +908,14 @@
                 $("#askReviseProposalForm").validate({
                     rules: {
                         dokumen_revisi: {
-                            extension: "docx", // Add valid file extensions here
-                            file_size_validator: true, // 2 MB (adjust as needed)
+                            extension: "pdf", // Add valid file extensions here
+                            // file_size_validator: true, // 2 MB (adjust as needed)
                         },
                         catatan: "required"
                     },
                     messages: {
                         dokumen_revisi: {
-                            extension: "File yang diterima doc."
+                            extension: "File yang diterima pdf."
                         },
                         catatan: "Catatan tidak boleh kosong."
                     },

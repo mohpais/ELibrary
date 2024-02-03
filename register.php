@@ -133,7 +133,10 @@
                         success: function(response) {
                             if(response.success) {
                                 toastr.success(response.message);
-                                window.location.href="login.php";
+                                setTimeout(function() {
+                                    window.location.href = "login.php";
+                                }, 2000);
+                                // window.location.href="login.php";
                             } else {
                                 toastr.error(response.message);
                             }

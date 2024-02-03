@@ -36,7 +36,7 @@
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link <?php echo get_current_url() == 'laporan kerja praktek' ? 'fw-bold text-ubk bg-none' : '' ?>" href="laporan-kerja-praktek.php">Laporan Kerja Praktek</a>
-                            <?php if ($_SESSION['user']['semester'] == 8) { ?>
+                            <?php if ($_SESSION['user']['semester'] >= 8) { ?>
                                 <a class="nav-link <?php echo get_current_url() == 'skripsi' ? 'fw-bold text-ubk bg-none' : '' ?>" href="skripsi.php">Tugas Akhir (Skripsi)</a>
                             <?php } ?>
                         </nav>

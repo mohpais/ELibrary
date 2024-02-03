@@ -192,7 +192,9 @@
 
                     // Calculate the semester based on the difference in months
                     const semester = Math.ceil(monthsDiff / 6);
-                    return semester == 0 ? 1 : semester > 8 ? 8 : semester;
+                    // return semester == 0 ? 1 : semester > 8 ? 8 : semester;
+                    return semester;
+
                 }
 
                 $('.datepicker').datepicker({
