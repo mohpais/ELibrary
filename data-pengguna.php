@@ -71,8 +71,10 @@
                                                 <th>Kode Pengguna</th>
                                                 <th>Nama Lengkap</th>
                                                 <th>Email</th>
+                                                <th>JabatanID</th>
                                                 <th>Jabatan</th>
                                                 <th>No Telp</th>
+                                                <th>Jurusan</th>
                                                 <th>Tanggal Bergabung</th>
                                                 <th></th>
                                             </tr>
@@ -84,8 +86,10 @@
                                                 <th>Kode Pengguna</th>
                                                 <th>Nama Lengkap</th>
                                                 <th>Email</th>
+                                                <th>JabatanID</th>
                                                 <th>Jabatan</th>
                                                 <th>No Telp</th>
+                                                <th>Jurusan</th>
                                                 <th>Tanggal Bergabung</th>
                                                 <th></th>
                                             </tr>
@@ -102,6 +106,7 @@
             <!-- End Navbar -->
         </div>
     </div>
+    <!-- Modal Tambah Pengguna -->
     <div class="modal fade" id="modal-tambah-pengguna" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -168,12 +173,79 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Simpan</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Tutup</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <!-- End Modal -->
+
+    <!-- Modal Edit Pengguna -->
+    <div class="modal fade" id="modal-edit-pengguna" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editPenggunaForm" novalidate>
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="staticBackdropLabel">Edit Pengguna</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-1">
+                            <label for="kode" class="form-label">Kode Pengguna <span class="text-danger fw-bold">*</span></label>
+                            <input 
+                                id="kode" 
+                                type="text" 
+                                name="kode" 
+                                class="form-control" 
+                                placeholder="Masukkan kode pengguna ..."
+                            />
+                        </div>
+                        <div class="mb-1">
+                            <label for="nama_lengkap" class="form-label">Nama Lengkap <span class="text-danger fw-bold">*</span></label>
+                            <input 
+                                id="nama_lengkap" 
+                                type="text" 
+                                name="nama_lengkap" 
+                                class="form-control" 
+                                placeholder="Masukkan nama pengguna ..."
+                            />
+                        </div>
+                        <?php 
+                            // Perform database connection
+                            $conn = connect_to_database();
+                            $query = 'SELECT * FROM `tbl_jabatan`';
+                            $stmt = $conn->prepare($query);
+                            $stmt->execute();
+                            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        ?>
+                        <div class="mb-1">
+                            <label for="jabatan_id" class="form-label">Jabatan <span class="text-danger fw-bold">*</span></label>
+                            <select id="jabatan_id" name="jabatan_id" class="form-select">
+                                <option value="" disabled>-- Pilih Salah Satu --</option>
+                                <?php foreach ($results as $result) { ?>
+                                    <option value="<?php echo $result['id']; ?>"><?php echo $result['jabatan']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="mb-1">
+                            <label for="jurusan" class="form-label">Jurusan <span class="text-danger fw-bold">*</span></label>
+                            <select id="jurusan" name="jurusan" class="form-select">
+                                <option value="" disabled>-- Pilih Salah Satu --</option>
+                                <option value="Sistem Informasi">Sistem Informasi</option>
+                                <option value="Sistem Komputer">Sistem Komputer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-warning">Edit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Tutup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
 
     <script src="assets/js/scripts.js"></script>
     <!-- JQuery Library -->
@@ -191,7 +263,7 @@
     <script src="assets/lib/DataTables/dataTables.bootstrap5.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#userTable').DataTable({
+            var table = $('#userTable').DataTable({
                 "language": {
                     "emptyTable": "Tidak ada data!",
                     "search": "Cari Pengguna:",
@@ -239,6 +311,7 @@
                             return !data ? '-' : data;
                         }
                     },
+                    { "data": "role_id", "visible": false },
                     { "data": "role" },
                     {
                         "data": "no_telp" ,
@@ -248,12 +321,13 @@
                             return !data ? '-' : data;
                         }
                     },
+                    { "data": "jurusan", "visible": false },
                     { "data": "tanggal_bergabung" },
                     { 
                         "data": "id",
                         "orderable": false,
                         "render": function (data, type, row) {
-                            return '<button id="btnResponse" class="btn btn-warning" data-id="' + data + '"><i class="fa-solid fa-pen-to-square"></i></button>';
+                            return '<button id="btnEdit" class="btn btn-warning" data-id="' + data + '"><i class="fa-solid fa-pen-to-square"></i></button>';
                         }
                     },
                 ],
@@ -291,56 +365,101 @@
 
             // Form validate submit proposalForm
             $("#tambahPenggunaForm").validate({
-                    rules: {
-                        kode: "required",
-                        nama_lengkap: "required",
-                        jabatan_id: "required",
-                        jurusan: "required",
-                    },
-                    messages: {
-                        kode: "Kode pengguna tidak boleh kosong.",
-                        nama_lengkap: "Nama lengkap tidak boleh kosong.",
-                        jabatan_id: "Jabatan tidak boleh kosong.",
-                        jurusan: "Jurusan tidak boleh kosong."
-                    },
-                    submitHandler: function(form) {
-                        // debugger;
-                        event.preventDefault();
-                        // Use FormData to handle file and other form data
-                        let payload = $(form).serialize();
-                        $.ajax({
-                            method:"POST",
-                            url: "services/user/add-user-service.php",
-                            data: payload,
-                            success: function(response) {
-                                // console.log(response);
-                                if(response.success) {
-                                    // console.log(response.message);
-                                    $("#modal-tambah-pengguna").modal('show');
-                                    toastr.success(response.message);
-                                    // Reload the page after 3 seconds
-                                    setTimeout(function() {
-                                        var id = response.message;
-                                        window.location.reload();
-                                    }, 2000);
-                                } else {
-                                    toastr.error(response.message);
-                                }
+                rules: {
+                    kode: "required",
+                    nama_lengkap: "required",
+                    jabatan_id: "required",
+                    jurusan: "required",
+                },
+                messages: {
+                    kode: "Kode pengguna tidak boleh kosong.",
+                    nama_lengkap: "Nama lengkap tidak boleh kosong.",
+                    jabatan_id: "Jabatan tidak boleh kosong.",
+                    jurusan: "Jurusan tidak boleh kosong."
+                },
+                submitHandler: function(form) {
+                    // debugger;
+                    event.preventDefault();
+                    // Use FormData to handle file and other form data
+                    let payload = $(form).serialize();
+                    $.ajax({
+                        method:"POST",
+                        url: "services/user/add-user-service.php",
+                        data: payload,
+                        success: function(response) {
+                            // console.log(response);
+                            if(response.success) {
+                                // console.log(response.message);
+                                $("#modal-tambah-pengguna").modal('show');
+                                toastr.success(response.message);
+                                // Reload the page after 3 seconds
+                                setTimeout(function() {
+                                    var id = response.message;
+                                    window.location.reload();
+                                }, 2000);
+                            } else {
+                                toastr.error(response.message);
                             }
-                        });
-                    }
-                });
+                        }
+                    });
+                }
+            });
 
-            // $("#openModalBtn").click(function() {
-            //     $("#modal-tambah-pengguna").modal('show');
-            // });
+            // Form validate submit proposalForm
+            $("#editPenggunaForm").validate({
+                rules: {
+                    kode: "required",
+                    nama_lengkap: "required",
+                    jabatan_id: "required",
+                    jurusan: "required",
+                },
+                messages: {
+                    kode: "Kode pengguna tidak boleh kosong.",
+                    nama_lengkap: "Nama lengkap tidak boleh kosong.",
+                    jabatan_id: "Jabatan tidak boleh kosong.",
+                    jurusan: "Jurusan tidak boleh kosong."
+                },
+                submitHandler: function(form) {
+                    // debugger;
+                    event.preventDefault();
+                    // Use FormData to handle file and other form data
+                    let payload = $(form).serialize();
+                    $.ajax({
+                        method:"POST",
+                        url: "services/user/edit-user-service.php",
+                        data: payload,
+                        success: function(response) {
+                            // console.log(response);
+                            if(response.success) {
+                                // console.log(response.message);
+                                $("#modal-edit-pengguna").modal('show');
+                                toastr.success(response.message);
+                                // Reload the page after 3 seconds
+                                setTimeout(function() {
+                                    var id = response.message;
+                                    window.location.reload();
+                                }, 2000);
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        }
+                    });
+                }
+            });
+                
             
-            // $('#userTable').on('click', 'button#btnResponse', function () {
-            //     let dataId = $(this).data('id');
-            //     let dataTipe = $(this).data('tipe');
-            //     let url = dataTipe == 1 ? `laporan-kerja-praktek.php?id=${dataId}` : `skripsi.php?id=${dataId}`;
-            //     window.location.href = url;
-            // });
+            $('#userTable').on('click', 'button#btnEdit', function () {
+                var rowIndex = table.row($(this).closest('tr')).index();
+                var rowData = table.row(rowIndex).data();
+
+                console.log(rowData);
+                $('form#editPenggunaForm').find('#kode').val(rowData.kode);
+                $('form#editPenggunaForm').find('#nama_lengkap').val(rowData.nama_lengkap);
+                $('form#editPenggunaForm').find('#jabatan_id').val(rowData.role_id);
+                $('form#editPenggunaForm').find('#jurusan').val(rowData.jurusan);
+
+                $("#modal-edit-pengguna").modal('show');
+            });
         });
 
     </script>

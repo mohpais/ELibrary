@@ -31,7 +31,7 @@
             $searchValue = $_POST['search']['value'];
 
             // Query
-            $query = "SELECT akun.kode, akun.nama_lengkap, akun.email, role.jabatan role, akun.no_telp, akun.tanggal_bergabung FROM tbl_akun akun join tbl_jabatan role on role.id = akun.jabatan_id WHERE kode != $kode_user";
+            $query = "SELECT akun.kode, akun.nama_lengkap, akun.email, role.id role_id, role.jabatan role, akun.no_telp, akun.jurusan, akun.tanggal_bergabung FROM tbl_akun akun join tbl_jabatan role on role.id = akun.jabatan_id WHERE kode != $kode_user";
             // Total records without filtering
             $totalRecordsQuery  = "SELECT COUNT(dataQ.kode) as total FROM ($query) dataQ";
             $totalRecordsResult = $conn->prepare($totalRecordsQuery);

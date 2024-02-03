@@ -113,7 +113,7 @@
                                                 <label for="jurusan" class="col-md-3 col-lg-2 col-form-label">Jurusan <span class="text-danger fw-bold">*</span></label>
                                                 <div class="col-md-9 col-lg-10">
                                                     <select name="jurusan" id="jurusan" class="form-control">
-                                                        <option value="" disabled selected>-- Pilih Salah Satu --</option>
+                                                        <option value="" disabled>-- Pilih Salah Satu --</option>
                                                         <option value="Sistem Informasi" <?php echo $_SESSION['user']['jurusan'] == 'Sistem Informasi' ? 'selected' : '' ?>>Sistem Informasi</option>
                                                         <option value="Sistem Komputer" <?php echo $_SESSION['user']['jurusan'] == 'Sistem Komputer' ? 'selected' : '' ?>>Sistem Komputer</option>
                                                     </select>
@@ -177,8 +177,17 @@
         <script>
             $(document).ready(function () {
                 $(document).off('.datepicker.data-api');
-                var role = '<?php echo $_SESSION['user']['role'] ?>';
+                var kode = '<?php echo $_SESSION['user']['kode'] ?>';
+                if (/^(71)/.test(kode)) {
+                    $("#formProfile").find('#jurusan').val('Sistem Komputer')
+                } else if (/^(72)/.test(kode)) {
+                    $("#formProfile").find('#jurusan').val('Sistem Informasi')
+                }
+                if (/^(71|72)/.test(kode)) {
+                    $("#formProfile").find('#jurusan').attr('disabled', true);
+                }
 
+                var role = '<?php echo $_SESSION['user']['role'] ?>';
                 function calculateSemester(joinDate) {
                     // Parse the joinDate string into a Date object
                     const joinDateObj = new Date(joinDate);
