@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2023 at 08:46 AM
+-- Generation Time: Feb 03, 2024 at 05:04 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -48,12 +48,7 @@ CREATE TABLE `tbl_akun` (
 --
 
 INSERT INTO `tbl_akun` (`kode`, `jabatan_id`, `nama_lengkap`, `no_telp`, `email`, `password`, `jurusan`, `semester`, `tanggal_bergabung`, `dibuat_oleh`, `dibuat_pada`, `terakhir_diubah_oleh`, `terakhir_diubah_pada`) VALUES
-('14115717', 4, 'Super Admin', '', 'admin@demo.com', '$2y$10$2jVohspZPBW.w89tit7usOpbHV2QQpQ3BLNKq5WmdrEO0EeVBvkbq', NULL, NULL, NULL, '14115717', '2023-09-22 17:00:00', NULL, '2023-09-24 14:10:34'),
-('7149175839', 1, 'Firman Hermawan', '088812654321', 'firman.h88@yahoo.com', '$2y$10$/.zeEhGHj0Tm6WgC3IJGJ.WoK8RsooSN58/PeRZXNKkyEwWLJ8zTa', 'Sistem Komputer', 6, '2021-01-01', '7249175839', '2023-09-23 15:29:26', NULL, '2023-09-24 14:10:34'),
-('7201190013', 1, 'M Fardian Nopandi', '0812863755512', 'm.fardiannopandi@gmail.com', '$2y$10$F5YewqceLYVnW0pxD9LJsOBMyqEf87Hqlfw76RpUxVEmO.KcAhC76', 'Sistem Informasi', 8, '2019-03-01', '7201190013', '2023-09-23 15:08:30', NULL, '2023-09-24 14:10:34'),
-('7223997651', 1, 'Adhitya Rachmah', '', '', '$2y$10$BMCNeGuil0IZ2cUycZ5lIefTe/4wco6JPc7rM.ZzMXezTPiZHTjrm', 'Sistem Informasi', 3, '2022-06-01', '7223997651', '2023-09-28 13:42:32', '7223997651', '2023-09-28 13:42:32'),
-('998', 3, 'Henry Purwa, S.Kom, M.M.S.I', NULL, '', '$2y$10$/.zeEhGHj0Tm6WgC3IJGJ.WoK8RsooSN58/PeRZXNKkyEwWLJ8zTa', 'Sistem Komputer', NULL, '2014-09-04', 'System', '2023-09-25 18:35:50', 'System', '2023-09-25 18:35:50'),
-('999', 2, 'Fauziyah, S.Kom, M.M.S.I', NULL, '', '$2y$10$SHmSgsogP.CoHtll5Yi14.5ts7XezVcF1HgMQGdAcpQjNhqBw.jfm', 'Sistem Informasi', NULL, NULL, '14115717', '2023-09-29 15:32:05', '14115717', '2023-09-29 15:32:05');
+('14115717', 4, 'Admin Aplikasi', '', 'admin@elibrary-ubk.com', '$2y$10$2jVohspZPBW.w89tit7usOpbHV2QQpQ3BLNKq5WmdrEO0EeVBvkbq', NULL, NULL, NULL, '14115717', '2023-09-22 17:00:00', NULL, '2023-09-24 14:10:34');
 
 -- --------------------------------------------------------
 
@@ -70,14 +65,6 @@ CREATE TABLE `tbl_dokumen_akhir` (
   `terakhir_diubah_oleh` varchar(20) DEFAULT NULL,
   `terakhir_diubah_pada` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_dokumen_akhir`
---
-
-INSERT INTO `tbl_dokumen_akhir` (`id`, `pengajuan_id`, `dokumen_akhir`, `dibuat_oleh`, `dibuat_pada`, `terakhir_diubah_oleh`, `terakhir_diubah_pada`) VALUES
-(1, 1, 'LPK-Final-7149175839.pdf', '7149175839', '2023-09-29 15:56:31', '7149175839', '2023-09-29 15:56:31'),
-(2, 2, 'LPK-Final-7201190013.pdf', '7201190013', '2023-09-30 04:53:32', '7201190013', '2023-09-30 04:53:32');
 
 -- --------------------------------------------------------
 
@@ -124,15 +111,6 @@ CREATE TABLE `tbl_pengajuan` (
   `terakhir_diubah_pada` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tbl_pengajuan`
---
-
-INSERT INTO `tbl_pengajuan` (`id`, `tipe_pengajuan_id`, `status_pengajuan_id`, `judul`, `dosen_pembimbing`, `dokumen_pengajuan`, `surat_validasi`, `dibuat_oleh`, `dibuat_pada`, `terakhir_diubah_oleh`, `terakhir_diubah_pada`) VALUES
-(1, 1, 6, 'Laporan Kerja Praktek Proposal Revisi', 'Gentur Maulana', 'Proposal-LKP-7149175839.docx', 'Surat-Validasi-LPK-7149175839.docx', '7149175839', '2023-09-28 14:22:55', '998', '2023-09-28 14:22:55'),
-(2, 1, 6, 'LPK Proposal SI Test Revisi', 'Fauziyah', 'Proposal-LKP-7201190013.docx', 'Surat-Validasi-LPK-7201190013.docx', '7201190013', '2023-09-29 16:01:50', '999', '2023-09-29 16:01:50'),
-(3, 2, 3, 'Skripsi Proposal', 'Julian Valentino', 'Proposal-Skripsi-7201190013.docx', NULL, '7201190013', '2023-09-30 04:58:08', '7201190013', '2023-09-30 04:58:08');
-
 -- --------------------------------------------------------
 
 --
@@ -149,42 +127,6 @@ CREATE TABLE `tbl_proses_pengajuan` (
   `dibuat_oleh` varchar(20) NOT NULL,
   `dibuat_pada` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_proses_pengajuan`
---
-
-INSERT INTO `tbl_proses_pengajuan` (`id`, `pengajuan_id`, `status_pengajuan_id`, `catatan`, `dokumen_revisi`, `tampilkan`, `dibuat_oleh`, `dibuat_pada`) VALUES
-(1, 1, 2, NULL, NULL, 1, '7149175839', '2023-09-28 14:22:55'),
-(2, 1, 3, NULL, NULL, 0, '7149175839', '2023-09-28 14:22:55'),
-(3, 1, 5, 'Coba ganti', NULL, 1, '998', '2023-09-28 16:03:55'),
-(4, 1, 7, NULL, NULL, 0, '998', '2023-09-28 16:03:55'),
-(5, 1, 8, NULL, NULL, 1, '7149175839', '2023-09-29 15:51:59'),
-(6, 1, 3, NULL, NULL, 0, '7149175839', '2023-09-29 15:51:59'),
-(7, 1, 4, 'Oke', NULL, 1, '998', '2023-09-29 15:54:23'),
-(8, 1, 9, NULL, NULL, 0, '998', '2023-09-29 15:54:23'),
-(9, 1, 10, NULL, NULL, 1, '7149175839', '2023-09-29 15:56:31'),
-(10, 1, 3, NULL, NULL, 0, '7149175839', '2023-09-29 15:56:31'),
-(11, 1, 11, '', NULL, 1, '998', '2023-09-29 15:56:54'),
-(12, 1, 6, NULL, NULL, 0, '998', '2023-09-29 15:56:54'),
-(13, 2, 2, NULL, NULL, 1, '7201190013', '2023-09-29 16:01:50'),
-(14, 2, 3, NULL, NULL, 0, '7201190013', '2023-09-29 16:01:50'),
-(15, 2, 5, 'Test revisi', NULL, 1, '999', '2023-09-30 04:07:52'),
-(16, 2, 7, NULL, NULL, 0, '999', '2023-09-30 04:07:52'),
-(17, 2, 8, NULL, NULL, 1, '7201190013', '2023-09-30 04:35:49'),
-(18, 2, 3, NULL, NULL, 0, '7201190013', '2023-09-30 04:35:49'),
-(19, 2, 5, 'sdfsdf', 'Dokumen Revisi-1696049497-999.docx', 1, '999', '2023-09-30 04:51:37'),
-(20, 2, 7, NULL, NULL, 0, '999', '2023-09-30 04:51:37'),
-(21, 2, 8, NULL, NULL, 1, '7201190013', '2023-09-30 04:52:10'),
-(22, 2, 3, NULL, NULL, 0, '7201190013', '2023-09-30 04:52:10'),
-(23, 2, 4, '', NULL, 1, '999', '2023-09-30 04:52:43'),
-(24, 2, 9, NULL, NULL, 0, '999', '2023-09-30 04:52:43'),
-(25, 2, 10, NULL, NULL, 1, '7201190013', '2023-09-30 04:53:32'),
-(26, 2, 3, NULL, NULL, 0, '7201190013', '2023-09-30 04:53:32'),
-(27, 2, 11, '', NULL, 1, '999', '2023-09-30 04:53:55'),
-(28, 2, 6, NULL, NULL, 0, '999', '2023-09-30 04:53:55'),
-(29, 3, 2, NULL, NULL, 1, '7201190013', '2023-09-30 04:58:08'),
-(30, 3, 3, NULL, NULL, 0, '7201190013', '2023-09-30 04:58:08');
 
 -- --------------------------------------------------------
 
@@ -301,7 +243,7 @@ ALTER TABLE `tbl_tipe_pengajuan`
 -- AUTO_INCREMENT for table `tbl_dokumen_akhir`
 --
 ALTER TABLE `tbl_dokumen_akhir`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_jabatan`
@@ -313,13 +255,13 @@ ALTER TABLE `tbl_jabatan`
 -- AUTO_INCREMENT for table `tbl_pengajuan`
 --
 ALTER TABLE `tbl_pengajuan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_proses_pengajuan`
 --
 ALTER TABLE `tbl_proses_pengajuan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `tbl_status_pengajuan`
