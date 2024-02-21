@@ -23,7 +23,6 @@
             $stmtcheck  = $conn->prepare('SELECT * FROM tbl_akun WHERE jabatan_id = 3');
             $stmtcheck->execute([$kaprodi_role_id]);
             $kaprodi = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-            $message = $kaprodi;
             // Check if kaprodi is exists
             if (!$kaprodi) {
                 $success = false;
