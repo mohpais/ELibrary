@@ -19,77 +19,88 @@
         try {
             // Start a transaction
             $conn->beginTransaction();
-            
-            // Insert data into Table Pengajuan dengan LKP
-            $query1 = <<<EOD
-                INSERT INTO tbl_pengajuan (
-                    tipe_pengajuan_id, 
-                    status_pengajuan_id, 
-                    judul, 
-                    dosen_pembimbing, 
-                    dokumen_pengajuan, 
-                    dibuat_oleh, 
-                    terakhir_diubah_oleh
-                ) VALUES (:tipe_dokumen, 3, :judul, :pembimbing, :filename, :akun_id, :akun_id)
-            EOD;
-            $stmt1 = $conn->prepare($query1);
-            // bind parameter ke query
-            $params1 = array(
-                ":tipe_dokumen" => $tipe_dokumen,
-                ":judul" => $judul,
-                ":pembimbing" => $pembimbing,
-                ":filename" => $filename,
-                ":akun_id" => $code_user
-            );
-            $stmt1->execute($params1);
-            $pengajuan_id = $conn->lastInsertId();
-
-            // Insert data into Table Proses Pengajuan
-            $queryProses = <<<EOD
-                INSERT INTO 
-                    tbl_proses_pengajuan (
-                        pengajuan_id, 
-                        status_pengajuan_id, 
-                        tampilkan, 
-                        dibuat_oleh
-                    ) 
-                    VALUES 
-                    (:pengajuan_id, :status_pengajuan_id, :tampilkan, :akun_id)
-            EOD;
-            // Insert aksi pengguna 
-            $stmt2 = $conn->prepare($queryProses);
-            $params2 = array(
-                ":pengajuan_id" => $pengajuan_id,
-                ":status_pengajuan_id" => 2,
-                ":tampilkan" => 1,
-                ":akun_id" => $code_user
-            );
-            $stmt2->execute($params2);
-
-            // Insert status proses 
-            $stmt3 = $conn->prepare($queryProses);
-            $params3 = array(
-                ":pengajuan_id" => $pengajuan_id,
-                ":status_pengajuan_id" => 3,
-                ":tampilkan" => 0,
-                ":akun_id" => $code_user
-            );
-            $stmt3->execute($params3);
-            
-            $targetDir = "../../uploads/"; // Specify the directory where you want to save the uploaded files
-            $targetFile = $targetDir . basename($filename);
-            // Check if the file already exists
-            if (file_exists($targetFile)) {
-                throw new Exception("File sudah ada.");
+            $kaprodi_role_id = $_SESSION['user']['jurusan'] == 'Sistem Informasi' ? 2 : 3;
+            $stmtcheck  = $conn->prepare('SELECT * FROM tbl_akun WHERE jabatan_id = 3');
+            $stmtcheck->execute([$kaprodi_role_id]);
+            $kaprodi = $stmtcheck->fetch(PDO::FETCH_ASSOC);
+            $message = $kaprodi;
+            // Check if kaprodi is exists
+            if (!$kaprodi) {
+                $success = false;
+                $message = 'Tidak ada data Kaprodi! Silahkan hubungi bagian administrasi!';
             } else {
-                // Try to move the uploaded file to the specified directory
-                if (move_uploaded_file($_FILES["dokumen_proposal"]["tmp_name"], $targetFile)) {
-                    $success = true;
+                // Insert data into Table Pengajuan dengan LKP
+                $query1 = <<<EOD
+                    INSERT INTO tbl_pengajuan (
+                        tipe_pengajuan_id, 
+                        status_pengajuan_id, 
+                        judul, 
+                        dosen_pembimbing, 
+                        dokumen_pengajuan, 
+                        dibuat_oleh, 
+                        terakhir_diubah_oleh
+                    ) VALUES (:tipe_dokumen, 3, :judul, :pembimbing, :filename, :akun_id, :akun_id)
+                EOD;
+                $stmt1 = $conn->prepare($query1);
+                // bind parameter ke query
+                $params1 = array(
+                    ":tipe_dokumen" => $tipe_dokumen,
+                    ":judul" => $judul,
+                    ":pembimbing" => $pembimbing,
+                    ":filename" => $filename,
+                    ":akun_id" => $code_user
+                );
+                $stmt1->execute($params1);
+                $pengajuan_id = $conn->lastInsertId();
+
+                // Insert data into Table Proses Pengajuan
+                $queryProses = <<<EOD
+                    INSERT INTO 
+                        tbl_proses_pengajuan (
+                            pengajuan_id, 
+                            status_pengajuan_id, 
+                            tampilkan, 
+                            dibuat_oleh
+                        ) 
+                        VALUES 
+                        (:pengajuan_id, :status_pengajuan_id, :tampilkan, :akun_id)
+                EOD;
+                // Insert aksi pengguna 
+                $stmt2 = $conn->prepare($queryProses);
+                $params2 = array(
+                    ":pengajuan_id" => $pengajuan_id,
+                    ":status_pengajuan_id" => 2,
+                    ":tampilkan" => 1,
+                    ":akun_id" => $code_user
+                );
+                $stmt2->execute($params2);
+
+                // Insert status proses 
+                $stmt3 = $conn->prepare($queryProses);
+                $params3 = array(
+                    ":pengajuan_id" => $pengajuan_id,
+                    ":status_pengajuan_id" => 3,
+                    ":tampilkan" => 0,
+                    ":akun_id" => $code_user
+                );
+                $stmt3->execute($params3);
+                
+                $targetDir = "../../uploads/"; // Specify the directory where you want to save the uploaded files
+                $targetFile = $targetDir . basename($filename);
+                // Check if the file already exists
+                if (file_exists($targetFile)) {
+                    throw new Exception("File sudah ada.");
                 } else {
-                    throw new Exception("Error uploading '$filename'.");
+                    // Try to move the uploaded file to the specified directory
+                    if (move_uploaded_file($_FILES["dokumen_proposal"]["tmp_name"], $targetFile)) {
+                        $success = true;
+                    } else {
+                        throw new Exception("Error uploading '$filename'.");
+                    }
                 }
+                $message = $pengajuan_id;
             }
-            $message = $pengajuan_id;
+            
             // Commit the transaction if everything is successful
             $conn->commit();
 
