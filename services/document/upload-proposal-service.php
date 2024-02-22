@@ -13,7 +13,9 @@
         $tipe_dokumen = $_POST['tipe_dokumen'];
         $documentType = $tipe_dokumen == 2 ? 'Skripsi' : 'LKP';
         $extension = pathinfo($_FILES["dokumen_proposal"]["name"], PATHINFO_EXTENSION);
-        $filename = "Proposal-" . $documentType . "-" . $code_user . "." . $extension;
+        // Get current date and time as a timestamp
+        $currentTimestamp = time();
+        $filename = "Proposal-" . $documentType . "-" . $code_user . "-" . $currentTimestamp .  "." . $extension;
         $targetFile = "";
         // Perform database connection
         $conn = connect_to_database();
@@ -108,7 +110,9 @@
 
         } catch (PDOException $e) {
             $success = false;
-            // unlink($targetFile);
+            // if ($targetFile != "") {
+            //     unlink($targetFile);
+            // }
             // An exception was thrown, so perform a rollback
             $conn->rollback();
             $message = "Error: " . $e->getMessage();
