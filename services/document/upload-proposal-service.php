@@ -84,7 +84,7 @@
                 $params3 = array(
                     ":pengajuan_id" => $pengajuan_id,
                     ":status_pengajuan_id" => 3,
-                    ":tampilkan" => 0,
+                    ":tampilkan" => 1,
                     ":akun_id" => $code_user
                 );
                 $stmt3->execute($params3);
