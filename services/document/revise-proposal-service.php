@@ -64,7 +64,7 @@
                 $targetDir = "../../uploads/"; // Specify the directory where you want to save the uploaded files
                 $documentType = $tipe_dokumen == 2 ? 'Skripsi' : 'LKP';
                 $extension = pathinfo($_FILES["dokumen_proposal"]["name"], PATHINFO_EXTENSION);
-                $filename = "Proposal-" . $documentType . "-" . $code_user . "." . $extension;
+                $filename = "Proposal-" . $documentType . "-" . $code_user . "-" . time() . "." . $extension;
                 $targetFile = $targetDir . basename($filename);
                 // Check if the file already exists
                 if (file_exists($targetFile)) {
