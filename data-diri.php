@@ -40,9 +40,9 @@
                             <?php 
                                 if (
                                     $_SESSION['user']['role'] == "Mahasiswa" &&
-                                    !isset($_SESSION['user']['jurusan']) && 
-                                    !isset($_SESSION['user']['semester']) && 
-                                    !isset($_SESSION['user']['tanggal_bergabung'])) 
+                                    (!isset($_SESSION['user']['jurusan']) || 
+                                    !isset($_SESSION['user']['semester']) || 
+                                    !isset($_SESSION['user']['tanggal_bergabung']))) 
                                 {
                             ?>
                                 <div class="col-12">
@@ -177,13 +177,17 @@
         <script>
             $(document).ready(function () {
                 $(document).off('.datepicker.data-api');
+                let data_jurusan;
                 var kode = '<?php echo $_SESSION['user']['kode'] ?>';
                 if (/^(71)/.test(kode)) {
-                    $("#formProfile").find('#jurusan').val('Sistem Komputer')
+                    // $("#formProfile").find('#jurusan').val('Sistem Komputer')
+                    data_jurusan = 'Sistem Komputer';
                 } else if (/^(72)/.test(kode)) {
-                    $("#formProfile").find('#jurusan').val('Sistem Informasi')
+                    // $("#formProfile").find('#jurusan').val('Sistem Informasi')
+                    data_jurusan = 'Sistem Informasi';
                 }
                 if (/^(71|72)/.test(kode)) {
+                    $("#formProfile").find('#jurusan').val(data_jurusan);
                     $("#formProfile").find('#jurusan').attr('disabled', true);
                 }
 
@@ -254,7 +258,14 @@
                         event.preventDefault();
                         // Serialize the form data into an array of objects
                         var formDataArray = $(form).serializeArray();
+                        if (!formDataArray.find(item => item.name === 'jurusan')) {
+                            let newobj = {
+                                name: 'jurusan',
+                                value: data_jurusan
+                            };
 
+                            formDataArray.push(newobj);
+                        }
                         // Convert the array into a JavaScript object
                         var formDataObject = {};
                         $.each(formDataArray, function(index, field){
