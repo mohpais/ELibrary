@@ -14,14 +14,17 @@
         $documentType = $tipe_dokumen == 2 ? 'Skripsi' : 'LKP';
         $extension = pathinfo($_FILES["dokumen_proposal"]["name"], PATHINFO_EXTENSION);
         $filename = "Proposal-" . $documentType . "-" . $code_user . "." . $extension;
+        $targetFile = "";
         // Perform database connection
         $conn = connect_to_database();
         try {
             // Start a transaction
             $conn->beginTransaction();
             $kaprodi_role_id = $_SESSION['user']['jurusan'] == 'Sistem Informasi' ? 2 : 3;
-            $stmtcheck  = $conn->prepare('SELECT * FROM tbl_akun WHERE jabatan_id = 3');
-            $stmtcheck->execute([$kaprodi_role_id]);
+            $stmtcheck  = $conn->prepare('SELECT * FROM tbl_akun WHERE jabatan_id = :kaprodi_role_id');
+            // Bind parameters
+            $stmtcheck->bindParam(':kaprodi_role_id', $kaprodi_role_id);
+            $stmtcheck->execute();
             $kaprodi = $stmtcheck->fetch(PDO::FETCH_ASSOC);
             // Check if kaprodi is exists
             if (!$kaprodi) {
@@ -105,7 +108,7 @@
 
         } catch (PDOException $e) {
             $success = false;
-            unlink($targetFile);
+            // unlink($targetFile);
             // An exception was thrown, so perform a rollback
             $conn->rollback();
             $message = "Error: " . $e->getMessage();
