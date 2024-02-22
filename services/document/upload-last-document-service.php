@@ -6,12 +6,14 @@
     $message = "Unsupported HTTP method";
     // Include the database connection details from database.php
     require_once '../../config/connection.php';
+    // Get current date and time as a timestamp
+    $currentTimestamp = time();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $kode_user = $_SESSION['user']['kode'];
         $id = $_POST['id'];
         $tipe_dokumen = $_POST['tipe_dokumen'];
-        $filename_surat_validasi = "Surat-Validasi-" . $tipe_dokumen . "-" . $kode_user . "." . $extension = pathinfo($_FILES["surat_validasi"]["name"], PATHINFO_EXTENSION);
-        $filename_dokumen_akhir = $tipe_dokumen . "-Final-" . $kode_user . "." . $extension = pathinfo($_FILES["dokumen_akhir"]["name"], PATHINFO_EXTENSION);
+        $filename_surat_validasi = "Surat-Validasi-" . $tipe_dokumen . "-" . $kode_user . "-" . $currentTimestamp .  "." . $extension = pathinfo($_FILES["surat_validasi"]["name"], PATHINFO_EXTENSION);
+        $filename_dokumen_akhir = $tipe_dokumen . "-Final-" . $kode_user . "-" . $currentTimestamp .  "." . $extension = pathinfo($_FILES["dokumen_akhir"]["name"], PATHINFO_EXTENSION);
         $targetDir = "../../uploads/"; // Specify the directory where you want to save the uploaded files
         // Perform database connection
         $conn = connect_to_database();

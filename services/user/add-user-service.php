@@ -12,7 +12,7 @@
         $fullname = $_POST['nama_lengkap'];
         $jabatan_id = $_POST['jabatan_id'];
         $jurusan = $_POST['jurusan'];
-        $password = "test123";
+        $password = "ubk2023";
 
         // Hash and encrypt the password using password_hash()
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
