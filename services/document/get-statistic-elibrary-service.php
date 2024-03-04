@@ -8,9 +8,10 @@
     header('Content-Type: application/json');
     // Include the database connection details from database.php
     require_once '../../config/connection.php';
-    $kode_user = $_SESSION['user']['kode'];
-    $role_user = $_SESSION['user']['role'];
-    $jurusan   = $role_user == "Kaprodi SI" ? "72%" : "71%";
+    $kode_user    = $_SESSION['user']['kode'];
+    $role_user    = $_SESSION['user']['role'];
+    $jurusan    = $_SESSION['user']['jurusan'];
+    $jurusan_kode = $role_user == "Kaprodi SI" ? "72%" : "71%";
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
         try {
             // Perform database connection
@@ -23,7 +24,7 @@
                     FROM 
                         tbl_akun
                     WHERE
-                        jabatan_id = 1 AND jurusan = 'Sistem Informasi'
+                        jabatan_id = 1 AND jurusan = :jurusan
                     GROUP BY jurusan
                 ), lkp_counts AS (
                     SELECT 
@@ -31,7 +32,7 @@
                     FROM 
                         tbl_pengajuan
                     WHERE
-                        tipe_pengajuan_id = 1 AND dibuat_oleh LIKE :jurusan
+                        tipe_pengajuan_id = 1 AND dibuat_oleh LIKE :jurusan_kode
                     GROUP BY tipe_pengajuan_id
                 ), skripsi_counts AS (
                     SELECT 
@@ -39,7 +40,7 @@
                     FROM 
                         tbl_pengajuan
                     WHERE
-                        tipe_pengajuan_id = 2 AND dibuat_oleh LIKE :jurusan
+                        tipe_pengajuan_id = 2 AND dibuat_oleh LIKE :jurusan_kode
                     GROUP BY tipe_pengajuan_id
                 )
                 SELECT 
@@ -49,7 +50,8 @@
             EOD;
             $stmtCount  = $conn->prepare($queryCount);
             $stmtCount->execute(array(
-                ':jurusan' => $jurusan
+                ':jurusan' => $jurusan,
+                ':jurusan_kode' => $jurusan_kode
             ));
 
             $dataCount  = $stmtCount->fetch(PDO::FETCH_ASSOC);
@@ -75,11 +77,11 @@
                         ON
                             akun.kode = pengajuan.dibuat_oleh
                 WHERE
-                    akun.dibuat_oleh LIKE :jurusan
+                    akun.dibuat_oleh LIKE :jurusan_kode
             EOD;
             $stmtStatistic  = $conn->prepare($queryStatistic);
             $stmtStatistic->execute(array(
-                ':jurusan' => $jurusan
+                ':jurusan_kode' => $jurusan_kode
             ));
 
             $dataStatistic  = $stmtStatistic->fetchAll(PDO::FETCH_ASSOC);

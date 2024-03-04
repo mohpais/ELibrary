@@ -10,6 +10,11 @@
         !isset($_SESSION['user']['tanggal_bergabung'])) {
             header("Location: data-diri.php");
     }
+
+    // Encode the user's role as JSON and embed it into the HTML
+    echo '<script>';
+    echo 'var userRole = ' . json_encode($_SESSION['user']['role']) . ';';
+    echo '</script>';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -460,81 +465,85 @@
     <!-- Chart JS Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script>
+        console.log(userRole.includes("Kaprodi"));
+
         // Set new default font family and font color to mimic Bootstrap's default styling
         Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
         Chart.defaults.global.defaultFontColor = '#292b2c';
-        $.ajax({
-            method:"GET",
-            url: "services/document/get-statistic-elibrary-service.php",
-            success: function(response) {
-                // console.log(response);
-                if(response.success) {
-                    let { count, statistic } = response;
-                    $('#mahasiswa_count').text(count.mahasiswa_count);
-                    $('#lkp_count').text(count.lkp_count);
-                    $('#skripsi_count').text(count.skripsi_count);
-
-                    // Extract all unique tahun_angkatan from statistic
-                    const tahunAngkatanSet = new Set(statistic.map(entry => entry.tahun_angkatan));
-
-                    // Define default types
-                    const defaultTypes = ["Skripsi", "Laporan Kerja Praktek"];
-
-                    // Generate data with default counts
-                    const data = [];
-                    for (const tahunAngkatan of tahunAngkatanSet) {
-                        for (const defaultType of defaultTypes) {
-                            const count = statistic.filter(entry => entry.tahun_angkatan === tahunAngkatan && entry.tipe === defaultType).length;
-                            data.push({ tahun_angkatan: tahunAngkatan, tipe: defaultType, count: count });
+        if (userRole.includes("Kaprodi")) {
+            $.ajax({
+                method:"GET",
+                url: "services/document/get-statistic-elibrary-service.php",
+                success: function(response) {
+                    // console.log(response);
+                    if(response.success) {
+                        let { count, statistic } = response;
+                        $('#mahasiswa_count').text(count.mahasiswa_count);
+                        $('#lkp_count').text(count.lkp_count);
+                        $('#skripsi_count').text(count.skripsi_count);
+    
+                        // Extract all unique tahun_angkatan from statistic
+                        const tahunAngkatanSet = new Set(statistic.map(entry => entry.tahun_angkatan));
+    
+                        // Define default types
+                        const defaultTypes = ["Skripsi", "Laporan Kerja Praktek"];
+    
+                        // Generate data with default counts
+                        const data = [];
+                        for (const tahunAngkatan of tahunAngkatanSet) {
+                            for (const defaultType of defaultTypes) {
+                                const count = statistic.filter(entry => entry.tahun_angkatan === tahunAngkatan && entry.tipe === defaultType).length;
+                                data.push({ tahun_angkatan: tahunAngkatan, tipe: defaultType, count: count });
+                            }
                         }
+    
+                        // Sort the data by tahun_angkatan in ascending order
+                        data.sort((a, b) => {
+                            if (a.tahun_angkatan < b.tahun_angkatan) return -1;
+                            if (a.tahun_angkatan > b.tahun_angkatan) return 1;
+                            return 0;
+                        });
+    
+                        // Find the highest count
+                        let highestCount = 0;
+                            for (const entry of data) {
+                            if (entry.count > highestCount) {
+                                highestCount = entry.count;
+                            }
+                        }
+    
+                        // Extract unique tahun_angkatan values from data
+                        const uniqueTahunAngkatan = Array.from(new Set(data.map(entry => entry.tahun_angkatan)));
+    
+                        const datasets = [
+                            {
+                                label: "Laporan Kerja Praktek",
+                                backgroundColor: "rgba(2,117,216,1)",
+                                borderColor: "rgba(2,117,216,1)",
+                                // Get count for LKP document type for each tahun_angkatan
+                                data: uniqueTahunAngkatan.map(tahunAngkatan => {
+                                    const entry = data.find(entry => entry.tahun_angkatan === tahunAngkatan && entry.tipe === "Laporan Kerja Praktek");
+                                    return entry ? entry.count : 0;
+                                }),
+                            },
+                            {
+                                label: "Skripsi",
+                                backgroundColor: "rgba(28, 200, 138, 1)",
+                                borderColor: "rgba(28, 200, 138, 1)",
+                                // Get count for Skripsi document type for each tahun_angkatan
+                                data: uniqueTahunAngkatan.map(tahunAngkatan => {
+                                    const entry = data.find(entry => entry.tahun_angkatan === tahunAngkatan && entry.tipe === "Skripsi");
+                                    return entry ? entry.count : 0;
+                                }),
+                            }
+                        ];
+                        setChart(uniqueTahunAngkatan, datasets, highestCount);
+                    } else {
+                        toastr.error(response.message);
                     }
-
-                    // Sort the data by tahun_angkatan in ascending order
-                    data.sort((a, b) => {
-                        if (a.tahun_angkatan < b.tahun_angkatan) return -1;
-                        if (a.tahun_angkatan > b.tahun_angkatan) return 1;
-                        return 0;
-                    });
-
-                    // Find the highest count
-                    let highestCount = 0;
-                        for (const entry of data) {
-                        if (entry.count > highestCount) {
-                            highestCount = entry.count;
-                        }
-                    }
-
-                    // Extract unique tahun_angkatan values from data
-                    const uniqueTahunAngkatan = Array.from(new Set(data.map(entry => entry.tahun_angkatan)));
-
-                    const datasets = [
-                        {
-                            label: "Laporan Kerja Praktek",
-                            backgroundColor: "rgba(2,117,216,1)",
-                            borderColor: "rgba(2,117,216,1)",
-                            // Get count for LKP document type for each tahun_angkatan
-                            data: uniqueTahunAngkatan.map(tahunAngkatan => {
-                                const entry = data.find(entry => entry.tahun_angkatan === tahunAngkatan && entry.tipe === "Laporan Kerja Praktek");
-                                return entry ? entry.count : 0;
-                            }),
-                        },
-                        {
-                            label: "Skripsi",
-                            backgroundColor: "rgba(28, 200, 138, 1)",
-                            borderColor: "rgba(28, 200, 138, 1)",
-                            // Get count for Skripsi document type for each tahun_angkatan
-                            data: uniqueTahunAngkatan.map(tahunAngkatan => {
-                                const entry = data.find(entry => entry.tahun_angkatan === tahunAngkatan && entry.tipe === "Skripsi");
-                                return entry ? entry.count : 0;
-                            }),
-                        }
-                    ];
-                    setChart(uniqueTahunAngkatan, datasets, highestCount);
-                } else {
-                    toastr.error(response.message);
                 }
-            }
-        });
+            });
+        }
 
         function setChart(uniqueTahunAngkatan, datasets, highestCount) {
             // Area Chart Example
