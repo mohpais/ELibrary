@@ -203,6 +203,7 @@
                                                         <th>Tipe Dokumen</th>
                                                         <th>Judul Dokumen</th>
                                                         <th>Dibuat Pada</th>
+                                                        <th>Dilihat Sebanyak</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
@@ -215,6 +216,7 @@
                                                         <th>Tipe Dokumen</th>
                                                         <th>Judul Dokumen</th>
                                                         <th>Dibuat Pada</th>
+                                                        <th>Dilihat Sebanyak</th>
                                                         <th></th>
                                                     </tr>
                                                 </tfoot>
@@ -230,6 +232,7 @@
                                                         <th>Tipe Dokumen</th>
                                                         <th>Judul Dokumen</th>
                                                         <th>Dibuat Pada</th>
+                                                        <th>Dilihat Sebanyak</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
@@ -242,6 +245,7 @@
                                                         <th>Tipe Dokumen</th>
                                                         <th>Judul Dokumen</th>
                                                         <th>Dibuat Pada</th>
+                                                        <th>Dilihat Sebanyak</th>
                                                         <th></th>
                                                     </tr>
                                                 </tfoot>
@@ -274,6 +278,31 @@
     <!-- DataTables Library -->
     <script src="assets/lib/DataTables/jquery.dataTables.min.js"></script>
     <script src="assets/lib/DataTables/dataTables.bootstrap5.min.js"></script>
+    <script>
+        function setReviewDocument(dokumen_akhir_id, filename) {
+                // Send data to API
+                $.ajax({
+                    url: 'services/document/set-review-dokumen-akhir-service.php',
+                    method: 'POST',
+                    data: { dokumen_akhir_id: dokumen_akhir_id }, // Adjust data to be sent as needed
+                    success: function(response) {
+                        let { success, message } = response;
+                        if (success) {
+                            console.log(response);
+                            // Proceed with download after successful API call
+                            // You may also want to handle errors here
+                            var downloadUrl = 'services/download-file.php?file=' + filename;
+                            window.open(downloadUrl, '_blank');
+                            // window.location.href = 'services/download-file.php?file=' + filename;
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+    </script>
     <script>
         $(document).ready(function() {
             var lkpTable = $('#lkpTable').DataTable({
@@ -336,10 +365,19 @@
                         }
                     },
                     { 
+                        "data": "review" ,
+                        "render": function (data, type, row, meta) {
+                            // Render the row index (meta.row) + 1 as the numbering index
+                            return `<div><i class="fas fa-eye me-1 text-muted" style="font-size: 14px"></i>${data}</div>`;
+                            // return meta.row + 1;
+                        }
+                    },
+                    { 
                         "data": "dokumen_akhir",
                         "orderable": false,
                         "render": function (data, type, row) {
-                            return '<a target="_blank" id="btnResponse" type="button" class="btn btn-primary" href="services/download-file.php?file=' + data + '" target="_blank"><i class="fa-solid fa-file-arrow-down"></i></a>';
+                            // return '<a target="_blank" id="btnResponse" type="button" class="btn btn-primary" href="services/download-file.php?file=' + data + '" target="_blank" onclick="setReviewDocument(' + row.dokumen_akhir_id + ')"><i class="fa-solid fa-file-arrow-down"></i></a>';
+                            return '<button id="btnResponse" type="button" class="btn btn-primary" data-id="' + row.dokumen_akhir_id + '" onClick="setReviewDocument(' + row.dokumen_akhir_id + ', `' + data + '`)"><i class="fa-solid fa-file-arrow-down"></i></a>';
                         }
                     },
                 ],
@@ -357,7 +395,7 @@
                 "info": true,
                 "autoWidth": false,
                 "order": [
-                    [6, "desc"]
+                    [5, "desc"]
                 ]
             });
             
@@ -419,10 +457,19 @@
                         }
                     },
                     { 
+                        "data": "review" ,
+                        "render": function (data, type, row, meta) {
+                            // Render the row index (meta.row) + 1 as the numbering index
+                            return `<div><i class="fas fa-eye me-1"></i>${data}</div>`;
+                            // return meta.row + 1;
+                        }
+                    },
+                    { 
                         "data": "dokumen_akhir",
                         "orderable": false,
                         "render": function (data, type, row) {
-                            return '<a target="_blank" id="btnResponse" type="button" class="btn btn-primary" href="services/download-file.php?file=' + data + '" target="_blank"><i class="fa-solid fa-file-arrow-down"></i></a>';
+                            // return '<a target="_blank" id="btnResponse" type="button" class="btn btn-primary" href="services/download-file.php?file=' + data + '" target="_blank"><i class="fa-solid fa-file-arrow-down"></i></a>';
+                            return '<button id="btnResponse" type="button" class="btn btn-primary" data-id="' + row.dokumen_akhir_id + '" onClick="setReviewDocument(' + row.dokumen_akhir_id + ', `' + data + '`)"><i class="fa-solid fa-file-arrow-down"></i></a>';
                         }
                     },
                 ],
@@ -440,13 +487,12 @@
                 "info": true,
                 "autoWidth": false,
                 "order": [
-                    [6, "desc"]
+                    [5, "desc"]
                 ]
             });
 
             // Event listener for tab change 
             $('#document-tab button').on('shown.bs.tab', function (e) {
-                console.log(e);
                 // Get the ID of the newly shown tab
                 var tabId = $(e.target).data('bs-target');
                 // Update DataTable based on tab ID
@@ -459,14 +505,13 @@
                     // Reload DataTable for Document Attachment
                     lkpTable.ajax.reload();
                 }
-            })
+            });
+
         })
     </script>
     <!-- Chart JS Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script>
-        console.log(userRole.includes("Kaprodi"));
-
         // Set new default font family and font color to mimic Bootstrap's default styling
         Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
         Chart.defaults.global.defaultFontColor = '#292b2c';

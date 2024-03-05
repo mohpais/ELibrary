@@ -40,19 +40,26 @@
                     p.dosen_pembimbing,
                     tp.tipe,
                     p.judul,
+                    da.id As dokumen_akhir_id,
                     da.dokumen_akhir,
+                    da.review,
                     p.dibuat_pada
                 FROM 
                     `tbl_pengajuan` p
-                    LEFT JOIN
+                    JOIN
                         `tbl_tipe_pengajuan` tp
                         ON
                             tp.id = p.tipe_pengajuan_id
-                    LEFT JOIN
-                        `tbl_dokumen_akhir` da
+                    JOIN (
+                        SELECT
+                            doc.*, 
+                            COALESCE((SELECT COUNT(*) FROM tbl_unduhan_dokumen_akhir WHERE dokumen_akhir_id = doc.Id AND dibuat_oleh = doc.dibuat_oleh), 0) As review
+                        FROM 
+                            `tbl_dokumen_akhir` doc
+                    ) da
                         ON
                             da.pengajuan_id = p.id
-                    LEFT JOIN
+                    JOIN
                         `tbl_akun` ak
                         ON
                             ak.kode = p.dibuat_oleh
