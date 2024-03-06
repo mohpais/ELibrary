@@ -24,15 +24,15 @@
                     FROM 
                         tbl_akun
                     WHERE
-                        jabatan_id = 1 -- AND jurusan = :jurusan
-                    GROUP BY jurusan
+                        jabatan_id = 1
+                    GROUP BY jabatan_id
                 ), lkp_counts AS (
                     SELECT 
                         COUNT(*) AS count 
                     FROM 
                         tbl_pengajuan
                     WHERE
-                        tipe_pengajuan_id = 1 -- AND dibuat_oleh LIKE :jurusan_kode
+                        tipe_pengajuan_id = 1
                     GROUP BY tipe_pengajuan_id
                 ), skripsi_counts AS (
                     SELECT 
@@ -40,7 +40,7 @@
                     FROM 
                         tbl_pengajuan
                     WHERE
-                        tipe_pengajuan_id = 2 -- AND dibuat_oleh LIKE :jurusan_kode
+                        tipe_pengajuan_id = 2
                     GROUP BY tipe_pengajuan_id
                 )
                 SELECT 
@@ -77,8 +77,6 @@
                         tbl_akun akun
                         ON
                             akun.kode = pengajuan.dibuat_oleh
-                --WHERE
-                --  akun.dibuat_oleh LIKE :jurusan_kode
             EOD;
             $stmtStatistic  = $conn->prepare($queryStatistic);
             // $stmtStatistic->execute(array(
@@ -98,8 +96,8 @@
             echo json_encode($jsonResponse);
         } catch (Exception $ex) {
             echo json_encode(array(
-                "success" => true,
-                "message" => $ex->getMessage
+                "success" => false,
+                "message" => $ex
             ));
         }
     }
