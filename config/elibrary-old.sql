@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2024 at 05:54 AM
+-- Generation Time: Feb 03, 2024 at 05:04 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -48,9 +48,7 @@ CREATE TABLE `tbl_akun` (
 --
 
 INSERT INTO `tbl_akun` (`kode`, `jabatan_id`, `nama_lengkap`, `no_telp`, `email`, `password`, `jurusan`, `semester`, `tanggal_bergabung`, `dibuat_oleh`, `dibuat_pada`, `terakhir_diubah_oleh`, `terakhir_diubah_pada`) VALUES
-('14115717', 4, 'Admin Aplikasi', '', 'admin@elibrary-ubk.com', '$2y$10$2jVohspZPBW.w89tit7usOpbHV2QQpQ3BLNKq5WmdrEO0EeVBvkbq', NULL, NULL, NULL, '14115717', '2023-09-22 17:00:00', NULL, '2023-09-24 14:10:34'),
-('7201190013', 1, 'Mahasiswa 1', '', '', '$2y$10$WeTUIka/Ijl9UeKFMjemD.g5VohBQVChC6f2D15hOXXP2iX81ulzC', 'Sistem Informasi', 10, '2019-03-01', '7201190013', '2024-02-22 12:18:45', '7201190013', '2024-02-22 12:18:45'),
-('998', 2, 'Kaprodi SI', NULL, '', '$2y$10$8EeulAkf38LdE8wmCjZiHuZBbOXbZWsEeUo..heNTisO20l4ibw0S', 'Sistem Informasi', NULL, NULL, '14115717', '2024-02-22 12:18:13', '14115717', '2024-02-22 12:18:13');
+('14115717', 4, 'Admin Aplikasi', '', 'admin@elibrary-ubk.com', '$2y$10$2jVohspZPBW.w89tit7usOpbHV2QQpQ3BLNKq5WmdrEO0EeVBvkbq', NULL, NULL, NULL, '14115717', '2023-09-22 17:00:00', NULL, '2023-09-24 14:10:34');
 
 -- --------------------------------------------------------
 
@@ -67,13 +65,6 @@ CREATE TABLE `tbl_dokumen_akhir` (
   `terakhir_diubah_oleh` varchar(20) DEFAULT NULL,
   `terakhir_diubah_pada` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_dokumen_akhir`
---
-
-INSERT INTO `tbl_dokumen_akhir` (`id`, `pengajuan_id`, `dokumen_akhir`, `dibuat_oleh`, `dibuat_pada`, `terakhir_diubah_oleh`, `terakhir_diubah_pada`) VALUES
-(6, 7, 'LPK-Final-7201190013-1709549728.pdf', '7201190013', '2024-03-04 10:55:28', '7201190013', '2024-03-04 10:55:28');
 
 -- --------------------------------------------------------
 
@@ -120,13 +111,6 @@ CREATE TABLE `tbl_pengajuan` (
   `terakhir_diubah_pada` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tbl_pengajuan`
---
-
-INSERT INTO `tbl_pengajuan` (`id`, `tipe_pengajuan_id`, `status_pengajuan_id`, `judul`, `dosen_pembimbing`, `dokumen_pengajuan`, `surat_validasi`, `dibuat_oleh`, `dibuat_pada`, `terakhir_diubah_oleh`, `terakhir_diubah_pada`) VALUES
-(7, 1, 6, 'Test Pengajuan LKP', 'Test Pembimbing SI', 'Proposal-LKP-7201190013-1709549656.pdf', 'Surat-Validasi-LPK-7201190013-1709549728.pdf', '7201190013', '2024-03-04 10:54:16', '998', '2024-03-04 10:54:16');
-
 -- --------------------------------------------------------
 
 --
@@ -143,20 +127,6 @@ CREATE TABLE `tbl_proses_pengajuan` (
   `dibuat_oleh` varchar(20) NOT NULL,
   `dibuat_pada` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_proses_pengajuan`
---
-
-INSERT INTO `tbl_proses_pengajuan` (`id`, `pengajuan_id`, `status_pengajuan_id`, `catatan`, `dokumen_revisi`, `tampilkan`, `dibuat_oleh`, `dibuat_pada`) VALUES
-(55, 7, 2, NULL, NULL, 1, '7201190013', '2024-03-04 10:54:16'),
-(56, 7, 3, NULL, NULL, 0, '7201190013', '2024-03-04 10:54:16'),
-(57, 7, 4, '', NULL, 1, '998', '2024-03-04 10:54:45'),
-(58, 7, 9, NULL, NULL, 0, '998', '2024-03-04 10:54:45'),
-(59, 7, 10, NULL, NULL, 1, '7201190013', '2024-03-04 10:55:28'),
-(60, 7, 3, NULL, NULL, 0, '7201190013', '2024-03-04 10:55:28'),
-(61, 7, 11, '', NULL, 1, '998', '2024-03-04 10:55:41'),
-(62, 7, 6, NULL, NULL, 0, '998', '2024-03-04 10:55:41');
 
 -- --------------------------------------------------------
 
@@ -218,26 +188,6 @@ INSERT INTO `tbl_tipe_pengajuan` (`id`, `tipe`, `deskripsi`, `dibuat_oleh`, `dib
 (1, 'Laporan Kerja Praktek', 'Tugas akhir untuk semester 6 atau D3', 'System', '2023-09-25 14:59:31', 'System', '2023-09-25 14:59:31'),
 (2, 'Skripsi', 'Tugas akhir untuk semester 8 atau S1', 'System', '2023-09-25 14:59:31', 'System', '2023-09-25 14:59:31');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_unduhan_dokumen_akhir`
---
-
-CREATE TABLE `tbl_unduhan_dokumen_akhir` (
-  `id` int(11) NOT NULL,
-  `dokumen_akhir_id` int(11) NOT NULL,
-  `dibuat_oleh` varchar(20) NOT NULL,
-  `dibuat_pada` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_unduhan_dokumen_akhir`
---
-
-INSERT INTO `tbl_unduhan_dokumen_akhir` (`id`, `dokumen_akhir_id`, `dibuat_oleh`, `dibuat_pada`) VALUES
-(1, 6, '7201190013', '2024-03-05 01:44:40');
-
 --
 -- Indexes for dumped tables
 --
@@ -286,12 +236,6 @@ ALTER TABLE `tbl_tipe_pengajuan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbl_unduhan_dokumen_akhir`
---
-ALTER TABLE `tbl_unduhan_dokumen_akhir`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -299,7 +243,7 @@ ALTER TABLE `tbl_unduhan_dokumen_akhir`
 -- AUTO_INCREMENT for table `tbl_dokumen_akhir`
 --
 ALTER TABLE `tbl_dokumen_akhir`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_jabatan`
@@ -311,13 +255,13 @@ ALTER TABLE `tbl_jabatan`
 -- AUTO_INCREMENT for table `tbl_pengajuan`
 --
 ALTER TABLE `tbl_pengajuan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_proses_pengajuan`
 --
 ALTER TABLE `tbl_proses_pengajuan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `tbl_status_pengajuan`
@@ -330,12 +274,6 @@ ALTER TABLE `tbl_status_pengajuan`
 --
 ALTER TABLE `tbl_tipe_pengajuan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `tbl_unduhan_dokumen_akhir`
---
-ALTER TABLE `tbl_unduhan_dokumen_akhir`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
