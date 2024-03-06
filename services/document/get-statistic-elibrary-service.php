@@ -24,7 +24,7 @@
                     FROM 
                         tbl_akun
                     WHERE
-                        jabatan_id = 1 AND jurusan = :jurusan
+                        jabatan_id = 1 -- AND jurusan = :jurusan
                     GROUP BY jurusan
                 ), lkp_counts AS (
                     SELECT 
@@ -32,7 +32,7 @@
                     FROM 
                         tbl_pengajuan
                     WHERE
-                        tipe_pengajuan_id = 1 AND dibuat_oleh LIKE :jurusan_kode
+                        tipe_pengajuan_id = 1 -- AND dibuat_oleh LIKE :jurusan_kode
                     GROUP BY tipe_pengajuan_id
                 ), skripsi_counts AS (
                     SELECT 
@@ -40,7 +40,7 @@
                     FROM 
                         tbl_pengajuan
                     WHERE
-                        tipe_pengajuan_id = 2 AND dibuat_oleh LIKE :jurusan_kode
+                        tipe_pengajuan_id = 2 -- AND dibuat_oleh LIKE :jurusan_kode
                     GROUP BY tipe_pengajuan_id
                 )
                 SELECT 
@@ -49,10 +49,11 @@
                     COALESCE((SELECT count FROM skripsi_counts), 0) AS skripsi_count
             EOD;
             $stmtCount  = $conn->prepare($queryCount);
-            $stmtCount->execute(array(
-                ':jurusan' => $jurusan,
-                ':jurusan_kode' => $jurusan_kode
-            ));
+            // $stmtCount->execute(array(
+            //     ':jurusan' => $jurusan,
+            //     ':jurusan_kode' => $jurusan_kode
+            // ));
+            $stmtCount->execute();
 
             $dataCount  = $stmtCount->fetch(PDO::FETCH_ASSOC);
 
@@ -76,13 +77,14 @@
                         tbl_akun akun
                         ON
                             akun.kode = pengajuan.dibuat_oleh
-                WHERE
-                    akun.dibuat_oleh LIKE :jurusan_kode
+                --WHERE
+                --  akun.dibuat_oleh LIKE :jurusan_kode
             EOD;
             $stmtStatistic  = $conn->prepare($queryStatistic);
-            $stmtStatistic->execute(array(
-                ':jurusan_kode' => $jurusan_kode
-            ));
+            // $stmtStatistic->execute(array(
+            //     ':jurusan_kode' => $jurusan_kode
+            // ));
+            $stmtStatistic->execute();
 
             $dataStatistic  = $stmtStatistic->fetchAll(PDO::FETCH_ASSOC);
 
